@@ -27,8 +27,17 @@ class Login extends Component {
   };
 
   handleLogin = async () => {
-    await handeLogin(this.state.username, this.state.password);
+    try {
+      let result = await handeLogin(this.state.username, this.state.password);
+      console.log(result);
+      if (result && result.user.errCode === 0) {
+        this.props.userLoginSuccess(result.user.user);
+      }
+    } catch (e) {
+      alert(e);
+    }
   };
+
   render() {
     return (
       <div className="login-background">
@@ -56,7 +65,7 @@ class Login extends Component {
               ></input>
             </div>
             <div className="col-12">
-              <button class="btn-login" onClick={() => this.handleLogin()}>
+              <button className="btn-login" onClick={() => this.handleLogin()}>
                 Login
               </button>
             </div>
@@ -64,7 +73,7 @@ class Login extends Component {
               <span className="forgot-password">Forgot your password</span>
             </div>
             <div className="col-12 text-center mt-3">
-              <span classNam="text-other-login"> Or login with</span>
+              <span className="text-other-login"> Or login with</span>
             </div>
             <div className="col-12 social-login">
               <i className="fab fa-google-plus-g google"></i>
@@ -86,9 +95,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
-    adminLoginSuccess: (adminInfo) =>
-      dispatch(actions.adminLoginSuccess(adminInfo)),
-    adminLoginFail: () => dispatch(actions.adminLoginFail()),
+    userLoginFail: () => dispatch(actions.userLoginFail()),
+    userLoginSuccess: (userInfo) =>
+      dispatch(actions.userLoginSuccess(userInfo)),
   };
 };
 
