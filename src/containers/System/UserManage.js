@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./userManage.scss";
 import { getAllUsers } from "../../services/userService";
+import ModalUser from "./ModalUser";
 class UserManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isOpenModal: false,
       arrUser: [],
     };
   }
@@ -19,12 +21,31 @@ class UserManage extends Component {
       () => {}
     );
   }
+  handleAddNewUser = () => {
+    this.setState({
+      isOpenModal: true,
+    });
+  };
 
+  toogleUserModal = () => {
+    this.setState({
+      isOpenModal: !this.state.isOpenModal,
+    });
+  };
   render() {
     let arrUser = this.state.arrUser;
     return (
       <div className="user-container">
         <div className="title text-center">Cố lên Bách</div>
+        <div className="mx-1">
+          <button className="btn btn-primary" onClick={this.handleAddNewUser}>
+            Add new user
+          </button>
+        </div>
+        <ModalUser
+          isOpen={this.state.isOpenModal}
+          toogleFromParent={this.toogleUserModal}
+        />
         <div className="user-table">
           <table>
             <tr>

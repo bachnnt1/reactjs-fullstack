@@ -14,3 +14,10 @@ th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.boundary {
+  .input-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
