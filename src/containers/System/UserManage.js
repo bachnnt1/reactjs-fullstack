@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./userManage.scss";
-import { getAllUsers, createNewUser } from "../../services/userService";
+import {
+  getAllUsers,
+  createNewUser,
+  deleteUser,
+} from "../../services/userService";
 import ModalUser from "./ModalUser";
 class UserManage extends Component {
   constructor(props) {
@@ -44,6 +48,12 @@ class UserManage extends Component {
       arrUser: response.user,
     });
   };
+  handleDeleteUser = async (item) => {
+    try {
+      await deleteUser(item.id);
+      await this.getAllUsers();
+    } catch (e) {}
+  };
   render() {
     let arrUser = this.state.arrUser;
     return (
@@ -79,7 +89,9 @@ class UserManage extends Component {
                       <td>{item.address}</td>
                       <td>
                         <button>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={() => this.handleDeleteUser(item)}>
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   );
