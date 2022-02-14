@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./userManage.scss";
-import { getAllUsers } from "../../services/userService";
+import { getAllUsers, createNewUser } from "../../services/userService";
 import ModalUser from "./ModalUser";
 class UserManage extends Component {
   constructor(props) {
@@ -13,13 +13,7 @@ class UserManage extends Component {
   }
 
   async componentDidMount() {
-    let response = await getAllUsers("ALL");
-    this.setState(
-      {
-        arrUser: response.user,
-      },
-      () => {}
-    );
+    await this.getAllUsers();
   }
   handleAddNewUser = () => {
     this.setState({
@@ -30,6 +24,24 @@ class UserManage extends Component {
   toogleUserModal = () => {
     this.setState({
       isOpenModal: !this.state.isOpenModal,
+    });
+  };
+  createNewUser = async (data) => {
+    try {
+      await createNewUser(data);
+      await this.getAllUsers();
+      this.setState({
+        isOpenModal: false,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  getAllUsers = async () => {
+    let response = await getAllUsers("ALL");
+    this.setState({
+      arrUser: response.user,
     });
   };
   render() {
@@ -45,31 +57,34 @@ class UserManage extends Component {
         <ModalUser
           isOpen={this.state.isOpenModal}
           toogleFromParent={this.toogleUserModal}
+          createNewUser={this.createNewUser}
         />
         <div className="user-table">
           <table>
-            <tr>
-              <th>Email</th>
-              <th>FullName</th>
-              <th>Lastname</th>
-              <th>address</th>
-              <th>action</th>
-            </tr>
-            {arrUser &&
-              arrUser.map((item, index) => {
-                return (
-                  <tr>
-                    <td>{item.email}</td>
-                    <td>{item.firstName}</td>
-                    <td>{item.lastName}</td>
-                    <td>{item.address}</td>
-                    <td>
-                      <button>Edit</button>
-                      <button>Delete</button>
-                    </td>
-                  </tr>
-                );
-              })}
+            <tbody>
+              <tr>
+                <th>Email</th>
+                <th>FullName</th>
+                <th>Lastname</th>
+                <th>address</th>
+                <th>action</th>
+              </tr>
+              {arrUser &&
+                arrUser.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{item.email}</td>
+                      <td>{item.firstName}</td>
+                      <td>{item.lastName}</td>
+                      <td>{item.address}</td>
+                      <td>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
           </table>
         </div>
       </div>

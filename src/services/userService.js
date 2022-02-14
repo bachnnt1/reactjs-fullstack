@@ -6,4 +6,8 @@ const handeLogin = (email, password) => {
 const getAllUsers = (id) => {
   return axios.get(`/api/get-all-user?id=${id}`);
 };
-export { handeLogin, getAllUsers };
+
+const createNewUser = (data) => {
+  return axios.post("/api/create-new-user", data);
+};
+export { handeLogin, getAllUsers, createNewUser };
