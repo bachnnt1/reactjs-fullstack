@@ -5,14 +5,19 @@ import {
   getAllUsers,
   createNewUser,
   deleteUser,
+  editUserService,
 } from "../../services/userService";
 import ModalUser from "./ModalUser";
+import ModalEditUser from "./ModalEditUser";
+import _ from "lodash";
 class UserManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpenModal: false,
       arrUser: [],
+      isEdit: false,
+      userEdit: {},
     };
   }
 
@@ -28,6 +33,12 @@ class UserManage extends Component {
   toogleUserModal = () => {
     this.setState({
       isOpenModal: !this.state.isOpenModal,
+    });
+  };
+
+  toogleUserEditModal = () => {
+    this.setState({
+      isEdit: !this.state.isEdit,
     });
   };
   createNewUser = async (data) => {
@@ -54,6 +65,25 @@ class UserManage extends Component {
       await this.getAllUsers();
     } catch (e) {}
   };
+
+  handleEditUser = async (item) => {
+    try {
+      this.setState({
+        isEdit: true,
+        userEdit: item,
+      });
+    } catch (e) {}
+  };
+
+  handleDoEditUser = async (user) => {
+    try {
+      await editUserService(user);
+      this.setState({
+        isEdit: false,
+      });
+      await this.getAllUsers();
+    } catch (e) {}
+  };
   render() {
     let arrUser = this.state.arrUser;
     return (
@@ -69,6 +99,15 @@ class UserManage extends Component {
           toogleFromParent={this.toogleUserModal}
           createNewUser={this.createNewUser}
         />
+        {this.state.isEdit && (
+          <ModalEditUser
+            isOpen={this.state.isEdit}
+            toogleFromParent={this.toogleUserEditModal}
+            currentUser={this.state.userEdit}
+            editUser={this.handleDoEditUser}
+          />
+        )}
+
         <div className="user-table">
           <table>
             <tbody>
@@ -88,7 +127,9 @@ class UserManage extends Component {
                       <td>{item.lastName}</td>
                       <td>{item.address}</td>
                       <td>
-                        <button>Edit</button>
+                        <button onClick={() => this.handleEditUser(item)}>
+                          Edit
+                        </button>
                         <button onClick={() => this.handleDeleteUser(item)}>
                           Delete
                         </button>

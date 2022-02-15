@@ -1,20 +1,34 @@
+import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-class ModalUser extends Component {
+class ModalEditUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       address: "",
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let user = this.props.currentUser;
+    if (user && !_.isEmpty(user)) {
+      this.setState({
+        id: user.id,
+        email: user.email,
+        password: "123456",
+        firstName: user.firstName,
+        lastName: user.lastName,
+        address: user.address,
+      });
+    }
+  }
   noRefCheck = () => {
     this.props.toogleFromParent();
   };
@@ -26,8 +40,8 @@ class ModalUser extends Component {
       ...copyState,
     });
   };
-  handleAddNewUser = () => {
-    this.props.createNewUser(this.state);
+  handleEditUser = () => {
+    this.props.editUser(this.state);
   };
   render() {
     return (
@@ -38,7 +52,7 @@ class ModalUser extends Component {
         centered
         className="boundary"
       >
-        <ModalHeader toggle={this.noRefCheck}>Create a new user</ModalHeader>
+        <ModalHeader toggle={this.noRefCheck}>Edit a new user</ModalHeader>
         <ModalBody>
           <div className="input-container">
             <label>Email</label>
@@ -48,6 +62,7 @@ class ModalUser extends Component {
                 this.handleChangeInput(event, "email");
               }}
               value={this.state.email}
+              disabled
             ></input>
           </div>
           <div className="input-container">
@@ -58,6 +73,7 @@ class ModalUser extends Component {
                 this.handleChangeInput(event, "password");
               }}
               value={this.state.password}
+              disabled
             ></input>
           </div>
           <div className="input-container">
@@ -65,7 +81,7 @@ class ModalUser extends Component {
             <input
               type="text"
               onChange={(event) => {
-                this.handleChangeInput(event, "firstname");
+                this.handleChangeInput(event, "firstName");
               }}
               value={this.state.firstName}
             ></input>
@@ -75,7 +91,7 @@ class ModalUser extends Component {
             <input
               type="text"
               onChange={(event) => {
-                this.handleChangeInput(event, "lastname");
+                this.handleChangeInput(event, "lastName");
               }}
               value={this.state.lastName}
             ></input>
@@ -92,8 +108,8 @@ class ModalUser extends Component {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.handleAddNewUser}>
-            Add
+          <Button color="primary" onClick={this.handleEditUser}>
+            Update
           </Button>{" "}
           <Button onClick={this.noRefCheck}>Cancel</Button>
         </ModalFooter>
@@ -110,4 +126,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditUser);
