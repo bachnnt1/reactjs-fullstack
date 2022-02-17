@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "./HomeHeader";
-
+import Specility from "./Section/Specility";
 class HomePage extends Component {
   render() {
     return (
       <div>
         <HomeHeader />
+        <Specility />
       </div>
     );
   }
