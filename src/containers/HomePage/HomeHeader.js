@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
 import { FormattedMessage } from "react-intl";
+import { languages } from "../../utils";
+import { changeLanguageApp } from "../../store/actions";
 
 class HomeHeader extends Component {
+  changeLanguage = (language) => {
+    this.props.changeLanguageAppRedux(language);
+  };
   render() {
     return (
       <>
@@ -60,8 +65,24 @@ class HomeHeader extends Component {
                 <i class="fas fa-ambulance"></i>{" "}
                 <FormattedMessage id="homeHeader.support" />
               </div>
-              <div className="flag">VN</div>
-              <div className="flag">EN</div>
+              <div
+                className={
+                  this.props.lang === languages.VI ? "flag active" : "flag"
+                }
+              >
+                <span onClick={() => this.changeLanguage(languages.VI)}>
+                  VN
+                </span>
+              </div>
+              <div
+                className={
+                  this.props.lang === languages.EN ? "flag active" : "flag"
+                }
+              >
+                <span onClick={() => this.changeLanguage(languages.EN)}>
+                  EN
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -116,13 +137,17 @@ class HomeHeader extends Component {
                 <div className="icon-child">
                   <i className="fas fa-user-md"></i>
                 </div>
-                <div className="text-child"><FormattedMessage id="homeHeader.spiritHealth" /></div>
+                <div className="text-child">
+                  <FormattedMessage id="homeHeader.spiritHealth" />
+                </div>
               </div>
               <div className="option-child">
                 <div className="icon-child">
                   <i class="fas fa-ambulance"></i>
                 </div>
-                <div className="text-child"><FormattedMessage id="homeHeader.dentistExam" /></div>
+                <div className="text-child">
+                  <FormattedMessage id="homeHeader.dentistExam" />
+                </div>
               </div>
             </div>
           </div>
@@ -140,7 +165,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
