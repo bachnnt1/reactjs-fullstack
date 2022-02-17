@@ -3,3 +3,14 @@
   background-color: #f5f5f5;
   border: solid 1px red;
 }
+
+.slick-prev {
+  border: solid 1px green !important;
+  position: relative !important;
+  left: 0 !important;
+}
+
+.slick-next {
+  border: solid 1px red !important;
+  right: 0 !important;
+}

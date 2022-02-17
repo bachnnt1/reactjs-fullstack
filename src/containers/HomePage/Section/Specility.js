@@ -16,23 +16,17 @@ class Specility extends Component {
     return (
       <div className="section-specialty">
         <Slider {...settings}>
-          <div>
+          <div className="img-customize">
             <h3>1</h3>
           </div>
-          <div>
+          <div className="img-customize">
             <h3>2</h3>
           </div>
-          <div>
+          <div className="img-customize">
             <h3>3</h3>
           </div>
-          <div>
+          <div className="img-customize">
             <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
           </div>
         </Slider>
       </div>
