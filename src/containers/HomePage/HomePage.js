@@ -5,6 +5,8 @@ import Specility from "./Section/Specility";
 import MedicalFacility from "./Section/medicalFacility";
 import TopDoctor from "./Section/TopDoctor";
 import Guilde from "./Section/Guilde";
+import About from "./Section/About";
+import HomeFooter from "./HomeFooter";
 import "./HomePage.scss";
 class HomePage extends Component {
   render() {
@@ -29,6 +31,8 @@ class HomePage extends Component {
         <MedicalFacility settings={settings} />
         <TopDoctor settings={settings} />
         <Guilde settings={settingsGuilde} />
+        <About />
+        <HomeFooter />
       </div>
     );
   }
