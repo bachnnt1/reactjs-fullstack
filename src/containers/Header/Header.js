@@ -7,13 +7,14 @@ import { adminMenu } from "./menuApp";
 import "./Header.scss";
 import { languages } from "../../utils";
 import { changeLanguageApp } from "../../store/actions";
+import { FormattedMessage } from "react-intl";
 class Header extends Component {
   changeLanguage = (language) => {
     this.props.changeLanguageAppRedux(language);
   };
 
   render() {
-    const { processLogout } = this.props;
+    const { processLogout, userInfo } = this.props;
     return (
       <div className="header-container">
         {/* thanh navigator */}
@@ -22,6 +23,10 @@ class Header extends Component {
         </div>
 
         <div className="language-container">
+          <span>
+            <FormattedMessage id="common.welcome" />{" "}
+            {userInfo && userInfo.firstName ? userInfo.firstName : ""}
+          </span>
           <div
             className={
               this.props.lang === languages.VI ? "flag active" : "flag"
@@ -49,6 +54,8 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    lang: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 
