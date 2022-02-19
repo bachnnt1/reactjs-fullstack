@@ -10,7 +10,7 @@ class System extends Component {
     const { systemMenuPath, isLoggedIn } = this.props;
     return (
       <>
-        {/* {isLoggedIn && <Header />} */}
+        {isLoggedIn && <Header />}
         <div className="system-container">
           <div className="system-list">
             <Switch>
