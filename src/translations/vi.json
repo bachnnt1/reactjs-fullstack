@@ -63,5 +63,17 @@
         "header": "Tham số hệ thống"
       }
     }
+  },
+  "user": {
+    "email": "Địa chỉ email",
+    "password": "mật khẩu",
+    "firstName": "Họ",
+    "lastName": "Tên",
+    "address": "Địa chỉ",
+    "phoneNumber": "Số điện thoại",
+    "gender": "Giới tính",
+    "position": "Vị trí",
+    "role": "chức vụ",
+    "image": "Ảnh đại diện"
   }
 }

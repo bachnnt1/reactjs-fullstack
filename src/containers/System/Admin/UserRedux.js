@@ -1,59 +1,91 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./UserRedux.scss";
+import { getAllCode } from "../../../services/userService";
+import { languages } from "../../../utils";
+import { FormattedMessage } from "react-intl";
 class UserRedux extends Component {
   state = {};
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { arrGender: [] };
   }
 
-  componentDidMount() {}
+  async componentDidMount() {
+    let res = await getAllCode("gender");
+    if (res) {
+      this.setState({ arrGender: res.data });
+    }
+  }
 
   render() {
+    let { arrGender } = this.state;
+    let lang = this.props.language;
     return (
       <div className="text-center">
         <div className="row-input">
           <div className="input">
-            <label>Email</label>
+            <label>
+              <FormattedMessage id="user.email" />
+            </label>
             <input type="email" name="email" />
           </div>
           <div className="input">
-            <label>Password</label>
+            <FormattedMessage id="user.password" />
             <input type="password" name="password" />
           </div>
         </div>
         <div className="row-input">
           <div className="input">
-            <label>first name</label>
+            <label>
+              <FormattedMessage id="user.firstName" />
+            </label>
             <input type="text" name="firstname" />
           </div>
           <div className="input">
-            <label>last name</label>
+            <label>
+              <FormattedMessage id="user.lastName" />
+            </label>
             <input type="text" name="lastname" />
           </div>
         </div>
         <div className="row-input">
           <div className="input">
-            <label>Address</label>
+            <label>
+              <FormattedMessage id="user.address" />
+            </label>
             <input type="text" name="address" />
           </div>
           <div className="input">
-            <label>Phone number</label>
-            <input type="text" name="phonenumber" />
+            <label>
+              <FormattedMessage id="user.phoneNumber" />
+            </label>
+            <input type="text" name="phoneNumber" />
           </div>
         </div>
 
         <div className="row-input">
           <div className="input">
-            <label>Gender</label>
+            <label>
+              <FormattedMessage id="user.gender" />
+            </label>
             <select id="inputState">
-              <option value="1">Men</option>
-              <option value="0">Female</option>
+              {arrGender &&
+                arrGender.data &&
+                arrGender.data.length &&
+                arrGender.data.map((item, index) => {
+                  return (
+                    <option key={index}>
+                      {lang === languages.VI ? item.valueVi : item.valueEn}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           <div className="input">
-            <label>Position</label>
+            <label>
+              <FormattedMessage id="user.position" />
+            </label>
             <select id="inputState2">
               <option value="1">Men</option>
               <option value="0">Female</option>
@@ -62,7 +94,9 @@ class UserRedux extends Component {
         </div>
         <div className="row-input">
           <div className="input">
-            <label>RoleId</label>
+            <label>
+              <FormattedMessage id="user.role" />
+            </label>
             <select id="inputState1" name="roleid">
               <option value="1">Admin</option>
               <option value="2">Doctor</option>
@@ -70,7 +104,9 @@ class UserRedux extends Component {
             </select>
           </div>
           <div className="input">
-            <label>Image</label>
+            <label>
+              <FormattedMessage id="user.image" />
+            </label>
             <input type="text" name="image" />
           </div>
         </div>
@@ -80,7 +116,9 @@ class UserRedux extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    language: state.app.language,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -63,5 +63,17 @@
         "header": "System-parameter"
       }
     }
+  },
+  "user": {
+    "email": "Email",
+    "password": "password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "address": "address",
+    "phoneNumber": "Phone number",
+    "gender": "Gender",
+    "position": "position",
+    "role": "Role",
+    "image": "Avatar"
   }
 }
