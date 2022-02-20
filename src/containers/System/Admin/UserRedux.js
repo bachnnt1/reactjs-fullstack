@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./UserRedux.scss";
-import { getAllCode } from "../../../services/userService";
 import { languages } from "../../../utils";
 import { FormattedMessage } from "react-intl";
+import { getGender } from "../../../store/actions/adminActions";
 class UserRedux extends Component {
   state = {};
   constructor(props) {
@@ -11,13 +11,18 @@ class UserRedux extends Component {
     this.state = { arrGender: [] };
   }
 
-  async componentDidMount() {
-    let res = await getAllCode("gender");
-    if (res) {
-      this.setState({ arrGender: res.data });
+  async componentDidMount() {}
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.genders !== this.props.genders) {
+      this.setState({
+        arrGender: this.props.genders,
+      });
     }
   }
-
+  getGenders = () => {
+    this.props.getGender();
+    console.log(this.props.genders);
+  };
   render() {
     let { arrGender } = this.state;
     let lang = this.props.language;
@@ -69,7 +74,7 @@ class UserRedux extends Component {
             <label>
               <FormattedMessage id="user.gender" />
             </label>
-            <select id="inputState">
+            <select id="inputState" onClick={() => this.getGenders()}>
               {arrGender &&
                 arrGender.data &&
                 arrGender.data.length &&
@@ -110,6 +115,9 @@ class UserRedux extends Component {
             <input type="text" name="image" />
           </div>
         </div>
+        <div>
+          <button type="submit">Create</button>
+        </div>
       </div>
     );
   }
@@ -118,11 +126,14 @@ class UserRedux extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    genders: state.admin.genders,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getGender: () => dispatch(getGender()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);
