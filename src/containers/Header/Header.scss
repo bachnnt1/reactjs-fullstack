@@ -20,6 +20,9 @@
       font-size: $base-size + 1px;
     }
   }
+  .flag {
+    cursor: pointer;
+  }
   .active {
     color: green;
   }

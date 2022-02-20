@@ -3,12 +3,16 @@ import { connect } from "react-redux";
 import "./UserRedux.scss";
 import { languages } from "../../../utils";
 import { FormattedMessage } from "react-intl";
-import { getGender } from "../../../store/actions/adminActions";
+import {
+  getGender,
+  getPositions,
+  getRoles,
+} from "../../../store/actions/adminActions";
 class UserRedux extends Component {
   state = {};
   constructor(props) {
     super(props);
-    this.state = { arrGender: [] };
+    this.state = { arrGender: [], arrPosition: [], arrRole: [] };
   }
 
   async componentDidMount() {}
@@ -18,13 +22,29 @@ class UserRedux extends Component {
         arrGender: this.props.genders,
       });
     }
+    if (prevProps.positions !== this.props.positions) {
+      this.setState({
+        arrPosition: this.props.positions,
+      });
+    }
+    if (prevProps.roles !== this.props.roles) {
+      this.setState({
+        arrRole: this.props.roles,
+      });
+    }
   }
   getGenders = () => {
     this.props.getGender();
-    console.log(this.props.genders);
   };
+  getPositions = () => {
+    this.props.getPositions();
+  };
+  getRoles = () => {
+    this.props.getRole();
+  };
+
   render() {
-    let { arrGender } = this.state;
+    let { arrGender, arrPosition, arrRole } = this.state;
     let lang = this.props.language;
     return (
       <div className="text-center">
@@ -91,9 +111,17 @@ class UserRedux extends Component {
             <label>
               <FormattedMessage id="user.position" />
             </label>
-            <select id="inputState2">
-              <option value="1">Men</option>
-              <option value="0">Female</option>
+            <select id="inputState2" onClick={() => this.getPositions()}>
+              {arrPosition &&
+                arrPosition.data &&
+                arrPosition.data.length &&
+                arrPosition.data.map((item, index) => {
+                  return (
+                    <option key={index}>
+                      {lang === languages.VI ? item.valueVi : item.valueEn}
+                    </option>
+                  );
+                })}
             </select>
           </div>
         </div>
@@ -102,10 +130,21 @@ class UserRedux extends Component {
             <label>
               <FormattedMessage id="user.role" />
             </label>
-            <select id="inputState1" name="roleid">
-              <option value="1">Admin</option>
-              <option value="2">Doctor</option>
-              <option value="3">Patient</option>
+            <select
+              id="inputState3"
+              name="roleid"
+              onClick={() => this.getRoles()}
+            >
+              {arrRole &&
+                arrRole.data &&
+                arrRole.data.length &&
+                arrRole.data.map((item, index) => {
+                  return (
+                    <option key={index}>
+                      {lang === languages.VI ? item.valueVi : item.valueEn}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           <div className="input">
@@ -127,12 +166,16 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     genders: state.admin.genders,
+    positions: state.admin.position,
+    roles: state.admin.role,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getGender: () => dispatch(getGender()),
+    getPositions: () => dispatch(getPositions()),
+    getRole: () => dispatch(getRoles()),
   };
 };
 

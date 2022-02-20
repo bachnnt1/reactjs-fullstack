@@ -33,12 +33,37 @@ const appReducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.GET_GENDER_SUCCESS:
-      let copyState = { ...state };
-      copyState.genders = action.genders;
+      state.genders = action.genders;
       return {
-        ...copyState,
+        ...state,
       };
     case actionTypes.GET_GENDER_FAIL:
+      return {
+        state,
+      };
+    case actionTypes.GET_POSITION:
+      return {
+        ...state,
+      };
+    case actionTypes.GET_POSITION_SUCCESS:
+      state.position = action.positions;
+      return {
+        ...state,
+      };
+    case actionTypes.GET_POSITION_FAIL:
+      return {
+        state,
+      };
+    case actionTypes.GET_ROLE:
+      return {
+        ...state,
+      };
+    case actionTypes.GET_ROLE_SUCCESS:
+      state.role = action.roles;
+      return {
+        ...state,
+      };
+    case actionTypes.GET_ROLE_FAIL:
       return {
         state,
       };
