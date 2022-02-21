@@ -8,7 +8,9 @@ import {
   getPositions,
   getRoles,
   createNewUserRedux,
+  fetchAllUsers,
 } from "../../../store/actions/adminActions";
+import TableManageUser from "./TableManageUser";
 class UserRedux extends Component {
   state = {};
   constructor(props) {
@@ -50,7 +52,7 @@ class UserRedux extends Component {
       this.setState({
         arrPosition: this.props.positions,
         position:
-          this.props.positions.data && this.props.positions.data.length > 0
+          this.props.positions && this.props.positions.length > 0
             ? this.props.positions.data[0].key
             : "",
       });
@@ -59,8 +61,8 @@ class UserRedux extends Component {
       this.setState({
         arrRole: this.props.roles,
         role:
-          this.props.roles.data && this.props.roles.data.length > 0
-            ? this.props.roles.data[0].key
+          this.props.roles && this.props.roles.length > 0
+            ? this.props.roles[0].key
             : "",
       });
     }
@@ -105,162 +107,165 @@ class UserRedux extends Component {
     } = this.state;
     let lang = this.props.language;
     return (
-      <div className="text-center">
-        <div className="row-input">
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.email" />
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={(event) => this.onChangeInput(event, "email")}
-            />
+      <>
+        <div className="text-center">
+          <div className="row-input">
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.email" />
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(event) => this.onChangeInput(event, "email")}
+              />
+            </div>
+            <div className="input">
+              <FormattedMessage id="user.password" />
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(event) => this.onChangeInput(event, "password")}
+              />
+            </div>
           </div>
-          <div className="input">
-            <FormattedMessage id="user.password" />
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={(event) => this.onChangeInput(event, "password")}
-            />
+          <div className="row-input">
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.firstName" />
+              </label>
+              <input
+                type="text"
+                name="firstname"
+                value={firstName}
+                onChange={(event) => this.onChangeInput(event, "firstName")}
+              />
+            </div>
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.lastName" />
+              </label>
+              <input
+                type="text"
+                name="lastname"
+                value={lastName}
+                onChange={(event) => this.onChangeInput(event, "lastName")}
+              />
+            </div>
           </div>
-        </div>
-        <div className="row-input">
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.firstName" />
-            </label>
-            <input
-              type="text"
-              name="firstname"
-              value={firstName}
-              onChange={(event) => this.onChangeInput(event, "firstName")}
-            />
+          <div className="row-input">
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.address" />
+              </label>
+              <input
+                type="text"
+                name="address"
+                value={address}
+                onChange={(event) => this.onChangeInput(event, "address")}
+              />
+            </div>
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.phoneNumber" />
+              </label>
+              <input
+                type="text"
+                name="phoneNumber"
+                value={phoneNumber}
+                onChange={(event) => this.onChangeInput(event, "phoneNumber")}
+              />
+            </div>
           </div>
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.lastName" />
-            </label>
-            <input
-              type="text"
-              name="lastname"
-              value={lastName}
-              onChange={(event) => this.onChangeInput(event, "lastName")}
-            />
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.address" />
-            </label>
-            <input
-              type="text"
-              name="address"
-              value={address}
-              onChange={(event) => this.onChangeInput(event, "address")}
-            />
-          </div>
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.phoneNumber" />
-            </label>
-            <input
-              type="text"
-              name="phoneNumber"
-              value={phoneNumber}
-              onChange={(event) => this.onChangeInput(event, "phoneNumber")}
-            />
-          </div>
-        </div>
 
-        <div className="row-input">
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.gender" />
-            </label>
-            <select
-              id="inputState"
-              onChange={(event) => this.onChangeInput(event, "gender")}
-            >
-              {arrGender &&
-                arrGender.data &&
-                arrGender.data.length &&
-                arrGender.data.map((item, index) => {
-                  return (
-                    <option key={index} value={item.key}>
-                      {lang === languages.VI ? item.valueVi : item.valueEn}
-                    </option>
-                  );
-                })}
-            </select>
+          <div className="row-input">
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.gender" />
+              </label>
+              <select
+                id="inputState"
+                onChange={(event) => this.onChangeInput(event, "gender")}
+              >
+                {arrGender &&
+                  arrGender.data &&
+                  arrGender.data.length &&
+                  arrGender.data.map((item, index) => {
+                    return (
+                      <option key={index} value={item.key}>
+                        {lang === languages.VI ? item.valueVi : item.valueEn}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.position" />
+              </label>
+              <select
+                id="inputState2"
+                onChange={(event) => this.onChangeInput(event, "position")}
+              >
+                {arrPosition &&
+                  arrPosition.data &&
+                  arrPosition.data.length &&
+                  arrPosition.data.map((item, index) => {
+                    return (
+                      <option key={index} value={item.key}>
+                        {lang === languages.VI ? item.valueVi : item.valueEn}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
           </div>
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.position" />
-            </label>
-            <select
-              id="inputState2"
-              onChange={(event) => this.onChangeInput(event, "position")}
-            >
-              {arrPosition &&
-                arrPosition.data &&
-                arrPosition.data.length &&
-                arrPosition.data.map((item, index) => {
-                  return (
-                    <option key={index} value={item.key}>
-                      {lang === languages.VI ? item.valueVi : item.valueEn}
-                    </option>
-                  );
-                })}
-            </select>
+          <div className="row-input">
+            <div className="input">
+              <label>
+                <FormattedMessage id="user.role" />
+              </label>
+              <select
+                id="inputState3"
+                name="roleid"
+                onChange={(event) => this.onChangeInput(event, "role")}
+              >
+                {arrRole &&
+                  arrRole.data &&
+                  arrRole.data.length &&
+                  arrRole.data.map((item, index) => {
+                    return (
+                      <option key={index} value={item.key}>
+                        {lang === languages.VI ? item.valueVi : item.valueEn}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+            <div className="input avatar">
+              <label htmlFor="image">
+                <FormattedMessage id="user.image" />
+              </label>
+              <input
+                type="file"
+                id="image"
+                hidden
+                onChange={(event) => {
+                  this.handleChangeImage(event);
+                }}
+              />
+            </div>
+          </div>
+          <div>
+            <button type="submit" onClick={() => this.handleSave()}>
+              Lưu user
+            </button>
           </div>
         </div>
-        <div className="row-input">
-          <div className="input">
-            <label>
-              <FormattedMessage id="user.role" />
-            </label>
-            <select
-              id="inputState3"
-              name="roleid"
-              onChange={(event) => this.onChangeInput(event, "role")}
-            >
-              {arrRole &&
-                arrRole.data &&
-                arrRole.data.length &&
-                arrRole.data.map((item, index) => {
-                  return (
-                    <option key={index} value={item.key}>
-                      {lang === languages.VI ? item.valueVi : item.valueEn}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          <div className="input avatar">
-            <label htmlFor="image">
-              <FormattedMessage id="user.image" />
-            </label>
-            <input
-              type="file"
-              id="image"
-              hidden
-              onChange={(event) => {
-                this.handleChangeImage(event);
-              }}
-            />
-          </div>
-        </div>
-        <div>
-          <button type="submit" onClick={() => this.handleSave()}>
-            Lưu user
-          </button>
-        </div>
-      </div>
+        <TableManageUser />
+      </>
     );
   }
 }
@@ -280,6 +285,7 @@ const mapDispatchToProps = (dispatch) => {
     getPositions: () => dispatch(getPositions()),
     getRole: () => dispatch(getRoles()),
     createNewUser: (data) => dispatch(createNewUserRedux(data)),
+    fetchAllUsers: () => dispatch(fetchAllUsers()),
   };
 };
 

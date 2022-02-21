@@ -6,6 +6,7 @@ const initialState = {
   genders: [],
   role: [],
   position: [],
+  users: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -64,6 +65,16 @@ const appReducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.GET_ROLE_FAIL:
+      return {
+        state,
+      };
+    case actionTypes.FETCH_ALL_USERS_SUCCESS:
+      state.users = action.users;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_ALL_USERS_FAIL:
+      state.users = [];
       return {
         state,
       };
