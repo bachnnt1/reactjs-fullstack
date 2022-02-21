@@ -49,10 +49,10 @@ class TableManageUser extends Component {
                       <td>{item.lastName}</td>
                       <td>{item.address}</td>
                       <td>
-                        <button>Edit</button>
-                        <button onClick={(userId) => this.deleteUser(item.id)}>
-                          Remove
-                        </button>
+                        <i
+                          class="fas fa-user-times"
+                          onClick={(userId) => this.deleteUser(item.id)}
+                        ></i>
                       </td>
                     </tr>
                   );
