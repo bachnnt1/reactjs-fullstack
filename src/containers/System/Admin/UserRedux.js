@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./UserRedux.scss";
-import { languages } from "../../../utils";
+import { languages, CommonUtils } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import {
   getGender,
@@ -67,9 +67,16 @@ class UserRedux extends Component {
       });
     }
   }
-  handleChangeImage = (event) => {
+  handleChangeImage = async (event) => {
     let data = event.target.files;
     let file = data[0];
+    if (file) {
+      let base64 = await CommonUtils.getBase64(file);
+      let objectUrl = URL.createObjectURL(file);
+      this.setState({
+        avatar: base64,
+      });
+    }
   };
   onChangeInput = (event, id) => {
     let copyState = { ...this.state };
@@ -87,6 +94,7 @@ class UserRedux extends Component {
       roleId: this.state.role,
       phoneNumber: this.state.phoneNumber,
       position: this.state.position,
+      avatar: this.state.avatar,
     });
   };
   render() {
