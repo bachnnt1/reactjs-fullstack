@@ -11,6 +11,9 @@
     text-align: initial;
     height: 3.5rem;
   }
+  .avatar {
+    flex-direction: column-reverse;
+  }
   select {
     height: 100%;
   }

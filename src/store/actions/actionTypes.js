@@ -18,6 +18,8 @@ const actionTypes = Object.freeze({
   GET_ROLE: "GET_ROLE",
   GET_ROLE_SUCCESS: "GET_ROLE_SUCCESS",
   GET_ROLE_FAIL: "GET_ROLE_FAIL",
+  SAVE_USER_SUCCESS: "SAVE_USER_SUCCESS",
+  SAVE_USER_FAIL: "SAVE_USER_FAIL",
 });
 
 export default actionTypes;
