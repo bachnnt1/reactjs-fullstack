@@ -23,7 +23,6 @@ class TopDoctor extends Component {
   }
   render() {
     let { arrDoctors } = this.state;
-    console.log(arrDoctors);
     return (
       <div className="section-specialty hightlight">
         <div className="special-content">
@@ -52,6 +51,7 @@ class TopDoctor extends Component {
                         style={{ backgroundImage: `url(${imageBase64})` }}
                       />
                       <div>{this.props.lang === languages.VI ? nameVi : nameEn}</div>
+                      <div>Chuyên khoa thể chất</div>
                     </div>
                   );
                 })}

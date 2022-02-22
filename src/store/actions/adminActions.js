@@ -156,7 +156,7 @@ export const deleteUserFail = () => ({
 export const getTopDoctorAction = () => {
   return async (dispatch, getState) => {
     try {
-      let res = await getTopDoctor("5");
+      let res = await getTopDoctor("8");
       if (res && res.doctors) {
         dispatch(fetchTopDoctorSuccess(res.doctors));
       } else {
