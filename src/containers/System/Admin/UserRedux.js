@@ -44,7 +44,7 @@ class UserRedux extends Component {
         arrGender: genderRedux,
         gender:
           genderRedux && genderRedux.data.length > 0
-            ? genderRedux.data[0].key
+            ? genderRedux.data[0].keyMap
             : "",
       });
     }
@@ -53,7 +53,7 @@ class UserRedux extends Component {
         arrPosition: this.props.positions,
         position:
           this.props.positions && this.props.positions.length > 0
-            ? this.props.positions.data[0].key
+            ? this.props.positions.data[0].keyMap
             : "",
       });
     }
@@ -62,7 +62,7 @@ class UserRedux extends Component {
         arrRole: this.props.roles,
         role:
           this.props.roles && this.props.roles.length > 0
-            ? this.props.roles[0].key
+            ? this.props.roles[0].keyMap
             : "",
       });
     }
@@ -73,15 +73,22 @@ class UserRedux extends Component {
     if (file) {
       let base64 = await CommonUtils.getBase64(file);
       let objectUrl = URL.createObjectURL(file);
-      this.setState({
-        avatar: base64,
-      });
+      this.setState(
+        {
+          avatar: base64,
+        },
+        () => {
+          console.log(this.state);
+        }
+      );
     }
   };
   onChangeInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
-    this.setState({ ...copyState });
+    this.setState({ ...copyState }, () => {
+      console.log(this.state);
+    });
   };
   handleSave = () => {
     this.props.createNewUser({
@@ -108,10 +115,6 @@ class UserRedux extends Component {
       lastName,
       phoneNumber,
       address,
-      gender,
-      position,
-      role,
-      avatar,
     } = this.state;
     let lang = this.props.language;
     return (
@@ -202,7 +205,7 @@ class UserRedux extends Component {
                   arrGender.data.length &&
                   arrGender.data.map((item, index) => {
                     return (
-                      <option key={index} value={item.key}>
+                      <option key={index} value={item.keyMap}>
                         {lang === languages.VI ? item.valueVi : item.valueEn}
                       </option>
                     );
@@ -222,7 +225,7 @@ class UserRedux extends Component {
                   arrPosition.data.length &&
                   arrPosition.data.map((item, index) => {
                     return (
-                      <option key={index} value={item.key}>
+                      <option key={index} value={item.keyMap}>
                         {lang === languages.VI ? item.valueVi : item.valueEn}
                       </option>
                     );
@@ -245,7 +248,7 @@ class UserRedux extends Component {
                   arrRole.data.length &&
                   arrRole.data.map((item, index) => {
                     return (
-                      <option key={index} value={item.key}>
+                      <option key={index} value={item.keyMap}>
                         {lang === languages.VI ? item.valueVi : item.valueEn}
                       </option>
                     );

@@ -4,8 +4,26 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./TopDoctor.scss";
+import * as action from "../../../store/actions";
+import { languages } from "../../../utils";
 class TopDoctor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      arrDoctors: [],
+    };
+  }
+  componentDidMount() {
+    this.props.loadTopDoctors();
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.topDoctorsRedux !== this.props.topDoctorsRedux) {
+      this.setState({ arrDoctors: this.props.topDoctorsRedux });
+    }
+  }
   render() {
+    let { arrDoctors } = this.state;
+    console.log(arrDoctors);
     return (
       <div className="section-specialty hightlight">
         <div className="special-content">
@@ -15,30 +33,28 @@ class TopDoctor extends Component {
           </div>
           <div className="body">
             <Slider {...this.props.settings}>
-              <div className="img-customize-doctor">
-                <div className="bg-image bg-image-doctor" />
-                <div>Bác sĩ Chuyên khoa II Trần Minh Khuyên</div>
-              </div>
-              <div className="img-customize-doctor">
-                <div className="bg-image bg-image-doctor" />
-                <div>Bác sĩ chuyên khoa II Trần Thị Hoài Hương</div>
-              </div>
-              <div className="img-customize-doctor">
-                <div className="bg-image bg-image-doctor" />
-                <div>Phó Giáo sư, Tiến sĩ, Bác sĩ cao cấp Nguyễn Duy Hưng</div>
-              </div>
-              <div className="img-customize-doctor">
-                <div className="bg-image bg-image-doctor" />
-                <div>PGS, TS, Giảng viên cao cấp Trần Hữu Bình</div>
-              </div>
-              <div className="img-customize-doctor">
-                <div className="bg-image bg-image-doctor" />
-                <div>Khám Nam học, Bệnh viện Nam học và Hiếm muộn Hà Nội</div>
-              </div>
-              <div className="img-customize-doctor">
-                <div className="bg-image bg-image-doctor" />
-                <div>Giáo sư, Tiến sĩ Trần Ngọc Ân</div>
-              </div>
+              {arrDoctors &&
+                arrDoctors.data &&
+                arrDoctors.data.length > 0 &&
+                arrDoctors.data.map((item, index) => {
+                  let imageBase64 = "";
+                  if (item.image) {
+                    imageBase64 = new Buffer(item.image, "base64").toString(
+                      "binary"
+                    );
+                  }
+                  let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
+                  let nameEn = `${item.positionData.valueEn}, ${item.lastName} ${item.firstName}`;
+                  return (
+                    <div className="img-customize-doctor" key={index}>
+                      <div
+                        className="bg-image bg-image-doctor"
+                        style={{ backgroundImage: `url(${imageBase64})` }}
+                      />
+                      <div>{this.props.lang === languages.VI ? nameVi : nameEn}</div>
+                    </div>
+                  );
+                })}
             </Slider>
           </div>
         </div>
@@ -47,8 +63,17 @@ class TopDoctor extends Component {
   }
 }
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = (state) => {
+  return {
+    topDoctorsRedux: state.admin.topDoctors,
+    lang: state.app.language,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadTopDoctors: () => dispatch(action.getTopDoctorAction()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopDoctor);

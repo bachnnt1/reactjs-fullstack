@@ -4,6 +4,7 @@ import {
   createNewUser,
   getAllUsers,
   deleteUser,
+  getTopDoctor,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -150,4 +151,28 @@ export const deleteUserSuccess = () => ({
 
 export const deleteUserFail = () => ({
   type: actionTypes.DELETE_USER_FAIL,
+});
+
+export const getTopDoctorAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getTopDoctor("5");
+      if (res && res.doctors) {
+        dispatch(fetchTopDoctorSuccess(res.doctors));
+      } else {
+        dispatch(fetchTopDoctorFail());
+      }
+    } catch (e) {
+      dispatch(fetchTopDoctorFail());
+    }
+  };
+};
+
+export const fetchTopDoctorSuccess = (data) => ({
+  type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+  topDoctors: data,
+});
+
+export const fetchTopDoctorFail = () => ({
+  type: actionTypes.FETCH_TOP_DOCTOR_FAIL,
 });

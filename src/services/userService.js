@@ -22,6 +22,9 @@ const editUserService = (user) => {
 const getAllCode = (type) => {
   return axios.get(`/api/allcode?type=${type}`);
 };
+const getTopDoctor = (limit) => {
+  return axios.get(`/api/get-top-doctor?limit=${limit}`);
+};
 export {
   handeLogin,
   getAllUsers,
@@ -29,4 +32,5 @@ export {
   deleteUser,
   editUserService,
   getAllCode,
+  getTopDoctor
 };

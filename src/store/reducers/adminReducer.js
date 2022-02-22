@@ -7,6 +7,7 @@ const initialState = {
   role: [],
   position: [],
   users: [],
+  topDoctors: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -65,6 +66,15 @@ const appReducer = (state = initialState, action) => {
         ...state,
       };
     case actionTypes.GET_ROLE_FAIL:
+      return {
+        state,
+      };
+    case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
+      state.topDoctors = action.topDoctors;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_TOP_DOCTOR_FAIL:
       return {
         state,
       };
