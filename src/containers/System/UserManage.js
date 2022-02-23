@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./userManage.scss";
 import {
-  getAllUsers,
   createNewUser,
   deleteUser,
   editUserService,
+  getAllUsers,
 } from "../../services/userService";
-import ModalUser from "./ModalUser";
 import ModalEditUser from "./ModalEditUser";
-import _ from "lodash";
+import ModalUser from "./ModalUser";
+import "./userManage.scss";
 class UserManage extends Component {
   constructor(props) {
     super(props);

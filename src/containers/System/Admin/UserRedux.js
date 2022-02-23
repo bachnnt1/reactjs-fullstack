@@ -72,7 +72,6 @@ class UserRedux extends Component {
     let file = data[0];
     if (file) {
       let base64 = await CommonUtils.getBase64(file);
-      let objectUrl = URL.createObjectURL(file);
       this.setState(
         {
           avatar: base64,
@@ -86,9 +85,7 @@ class UserRedux extends Component {
   onChangeInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
-    this.setState({ ...copyState }, () => {
-      console.log(this.state);
-    });
+    this.setState({ ...copyState });
   };
   handleSave = () => {
     this.props.createNewUser({

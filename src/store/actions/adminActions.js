@@ -5,6 +5,8 @@ import {
   getAllUsers,
   deleteUser,
   getTopDoctor,
+  getAllDoctor,
+  postDoctor,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -175,4 +177,51 @@ export const fetchTopDoctorSuccess = (data) => ({
 
 export const fetchTopDoctorFail = () => ({
   type: actionTypes.FETCH_TOP_DOCTOR_FAIL,
+});
+
+export const getAllDoctorAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllDoctor();
+      if (res && res.doctors && res.doctors.data) {
+        dispatch(fetchAllDoctorSuccess(res.doctors.data));
+      } else {
+        dispatch(fetchAllDoctorFail());
+      }
+    } catch (e) {
+      dispatch(fetchAllDoctorFail());
+    }
+  };
+};
+
+export const fetchAllDoctorSuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS,
+  allDoctors: data,
+});
+
+export const fetchAllDoctorFail = () => ({
+  type: actionTypes.FETCH_ALL_DOCTOR_FAIL,
+});
+
+export const postDoctorAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await postDoctor(data);
+      if (res) {
+        dispatch(postDoctorSuccess());
+      } else {
+        dispatch(postDoctorFail());
+      }
+    } catch (e) {
+      dispatch(postDoctorFail());
+    }
+  };
+};
+
+export const postDoctorSuccess = () => ({
+  type: actionTypes.POST_DOCTOR_SUCCESS,
+});
+
+export const postDoctorFail = () => ({
+  type: actionTypes.POST_DOCTOR_FAIL,
 });
