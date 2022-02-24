@@ -11,6 +11,7 @@ import {
 import "./ManageDoctor.scss";
 import "./TableManageUser.scss";
 import { languages } from "../../../utils";
+import { getDetailDoctorById } from "../../../services/userService";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -24,6 +25,7 @@ class ManageDoctor extends Component {
       description: "",
       listDoctors: [],
       listOptionDoctors: [],
+      isEdit: false,
     };
   }
 
@@ -67,10 +69,30 @@ class ManageDoctor extends Component {
   deleteUser = (userId) => {
     this.props.deleteUserRedux(userId);
   };
-  handleChange = (event) => {
-    this.setState({
-      selectedDoctor: event,
-    });
+  handleChange = async (event) => {
+    let doctorDetail = await getDetailDoctorById(event.value);
+    if (
+      doctorDetail &&
+      doctorDetail.response &&
+      doctorDetail.response.data &&
+      doctorDetail.response.data.Markdown
+    ) {
+      this.setState({
+        contentHTML: doctorDetail.response.data.Markdown.contentHTML,
+        contentMarkdown: doctorDetail.response.data.Markdown.contentMarkdown,
+        description: doctorDetail.response.data.Markdown.description,
+        isEdit: true,
+        selectedDoctor: event,
+      });
+    } else {
+      this.setState({
+        contentHTML: "",
+        contentMarkdown: "",
+        description: "",
+        isEdit: false,
+        selectedDoctor: event,
+      });
+    }
   };
   handleOnChangeDes = (event) => {
     this.setState({
@@ -83,20 +105,22 @@ class ManageDoctor extends Component {
       contentMarkdown: this.state.contentMarkdown,
       description: this.state.description,
       doctorId: this.state.selectedDoctor.value,
+      action: this.state.isEdit,
     };
     this.props.postDoctorAction(data);
   };
   render() {
-    let { selectedDoctor, description, listOptionDoctors } = this.state;
+    let {
+      selectedDoctor,
+      description,
+      listOptionDoctors,
+      isEdit,
+      contentMarkdown,
+    } = this.state;
     return (
       <>
         <h3 className="title">Manage doctor</h3>
         <div className="more-info">
-          <textarea
-            className="text-area"
-            onChange={(event) => this.handleOnChangeDes(event)}
-            value={description}
-          ></textarea>
           <Select
             className="select"
             value={selectedDoctor}
@@ -104,14 +128,22 @@ class ManageDoctor extends Component {
             options={listOptionDoctors}
             placeholder="Chọn bác sĩ"
           />
+          <textarea
+            className="text-area"
+            onChange={(event) => this.handleOnChangeDes(event)}
+            value={description}
+          ></textarea>
         </div>
         <MdEditor
           style={{ height: "500px" }}
           renderHTML={(text) => mdParser.render(text)}
           onChange={this.handleEditorChange}
+          value={contentMarkdown}
         />
         <div className="submit">
-          <button onClick={() => this.submit()}>Lưu thông tin</button>
+          <button onClick={() => this.submit()}>
+            {isEdit ? "Sửa thông tin" : "Lưu thông tin"}
+          </button>
         </div>
       </>
     );
