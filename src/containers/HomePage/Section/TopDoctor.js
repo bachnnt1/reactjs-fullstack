@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "./TopDoctor.scss";
 import * as action from "../../../store/actions";
 import { languages } from "../../../utils";
+import { withRouter } from "react-router";
 class TopDoctor extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +22,9 @@ class TopDoctor extends Component {
       this.setState({ arrDoctors: this.props.topDoctorsRedux });
     }
   }
+  handleViewDetailDoctor = (doctor) => {
+    this.props.history.push(`/detail-doctor/${doctor.id}`);
+  };
   render() {
     let { arrDoctors } = this.state;
     return (
@@ -45,12 +49,18 @@ class TopDoctor extends Component {
                   let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
                   let nameEn = `${item.positionData.valueEn}, ${item.lastName} ${item.firstName}`;
                   return (
-                    <div className="img-customize-doctor" key={index}>
+                    <div
+                      className="img-customize-doctor"
+                      key={index}
+                      onClick={() => this.handleViewDetailDoctor(item)}
+                    >
                       <div
                         className="bg-image bg-image-doctor"
                         style={{ backgroundImage: `url(${imageBase64})` }}
                       />
-                      <div>{this.props.lang === languages.VI ? nameVi : nameEn}</div>
+                      <div>
+                        {this.props.lang === languages.VI ? nameVi : nameEn}
+                      </div>
                       <div>Chuyên khoa thể chất</div>
                     </div>
                   );
@@ -76,4 +86,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopDoctor);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TopDoctor)
+);

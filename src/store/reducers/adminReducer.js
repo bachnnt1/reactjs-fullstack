@@ -9,6 +9,7 @@ const initialState = {
   users: [],
   topDoctors: [],
   allDoctors: [],
+  detailDoctor: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -96,6 +97,16 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.FETCH_ALL_DOCTOR_FAIL:
       state.allDoctors = [];
+      return {
+        state,
+      };
+    case actionTypes.GET_DETAIL_DOCTOR_SUCCESS:
+      state.detailDoctor = action.detail;
+      return {
+        ...state,
+      };
+    case actionTypes.GET_DETAIL_DOCTOR_FAIL:
+      state.detailDoctor = {};
       return {
         state,
       };

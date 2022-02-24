@@ -7,6 +7,7 @@ import {
   getTopDoctor,
   getAllDoctor,
   postDoctor,
+  getDetailDoctorById,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -224,4 +225,28 @@ export const postDoctorSuccess = () => ({
 
 export const postDoctorFail = () => ({
   type: actionTypes.POST_DOCTOR_FAIL,
+});
+
+export const getDEtailDoctorById = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getDetailDoctorById(id);
+      if (res) {
+        dispatch(getDetailDocSuccess(res));
+      } else {
+        dispatch(getDetailDocFail());
+      }
+    } catch (e) {
+      dispatch(getDetailDocFail());
+    }
+  };
+};
+
+export const getDetailDocSuccess = (detail) => ({
+  type: actionTypes.GET_DETAIL_DOCTOR_SUCCESS,
+  detail: detail,
+});
+
+export const getDetailDocFail = () => ({
+  type: actionTypes.GET_DETAIL_DOCTOR_FAIL,
 });
