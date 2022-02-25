@@ -8,6 +8,7 @@ import {
   getAllDoctor,
   postDoctor,
   getDetailDoctorById,
+  saveBulkScheduleDoctor,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -273,4 +274,27 @@ export const getAllCodeTimeSuccess = (data) => ({
 
 export const getAllCodeTimeFail = () => ({
   type: actionTypes.GET_ALLCODE_HOUR_FAIl,
+});
+
+export const postBulkSchedule = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await saveBulkScheduleDoctor(data);
+      if (res) {
+        dispatch(postBulkScheduleSuccess());
+      } else {
+        dispatch(postBulkScheduleFail());
+      }
+    } catch (e) {
+      dispatch(postBulkScheduleFail());
+    }
+  };
+};
+
+export const postBulkScheduleSuccess = () => ({
+  type: actionTypes.POST_BULK_SCHEDULE_SUCCESS,
+});
+
+export const postBulkScheduleFail = () => ({
+  type: actionTypes.POST_BULK_SCHEDULE_FAIL,
 });

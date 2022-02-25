@@ -35,6 +35,10 @@ const postDoctor = (data) => {
 const getDetailDoctorById = (id) => {
   return axios.get(`/api/get-detail-doctor?id=${id}`);
 };
+
+const saveBulkScheduleDoctor = (data) => {
+  return axios.post(`/api/bulk-create-schedule`, data);
+};
 export {
   handeLogin,
   getAllUsers,
@@ -46,4 +50,5 @@ export {
   getAllDoctor,
   postDoctor,
   getDetailDoctorById,
+  saveBulkScheduleDoctor,
 };

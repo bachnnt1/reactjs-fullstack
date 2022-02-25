@@ -6,6 +6,7 @@ import DatePicker from "../../../components/Input/DatePicker";
 import {
   getAllDoctorAction,
   getAllCodeTime,
+  postBulkSchedule,
 } from "../../../store/actions/adminActions";
 import { languages } from "../../../utils";
 import "./ManageSchedule.scss";
@@ -78,21 +79,27 @@ class ManageSchedule extends Component {
       rangeTime: rangeTime,
     });
   };
-  handleAddSchedule = () => {
+  handleAddSchedule = async () => {
     let arrResult = [];
     let { currentDate, selectedDoctor, rangeTime } = this.state;
-    let selectedDate = moment(currentDate).format("DD/MM/YYYY");
+    // let selectedDate = moment(currentDate).format("DD/MM/YYYY");
+    let selectedDate = new Date(currentDate).getTime();
+
     let selectedTime = rangeTime.filter((item) => item.isSelected === true);
     if (selectedTime && selectedTime.length > 0) {
       selectedTime.map((item) => {
         let obj = {};
         obj.doctorId = selectedDoctor.value;
-        obj.time = item.keyMap;
+        obj.timeType = item.keyMap;
         obj.date = selectedDate;
         arrResult.push(obj);
       });
     }
-    console.log(arrResult);
+    await this.props.postBulkSchedule({
+      arrResult: arrResult,
+      doctorId: selectedDoctor.value,
+      date: selectedDate,
+    });
   };
   render() {
     let { listOptionDoctors, selectedDoctor, rangeTime } = this.state;
@@ -166,6 +173,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllDoctorAction: () => dispatch(getAllDoctorAction()),
     getAllCodeTime: () => dispatch(getAllCodeTime()),
+    postBulkSchedule: (data) => dispatch(postBulkSchedule(data)),
   };
 };
 
