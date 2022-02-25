@@ -9,6 +9,7 @@ import {
 } from "../../../store/actions/adminActions";
 import { languages } from "../../../utils";
 import "./ManageSchedule.scss";
+import moment from "moment";
 class ManageSchedule extends Component {
   constructor(props) {
     super(props);
@@ -49,8 +50,10 @@ class ManageSchedule extends Component {
       });
     }
     if (prevProps.schedule !== this.props.schedule) {
+      let schedule = this.props.schedule;
+      schedule = schedule.data.map((item) => ({ ...item, isSelected: false }));
       this.setState({
-        rangeTime: this.props.schedule,
+        rangeTime: schedule,
       });
     }
   }
@@ -64,9 +67,35 @@ class ManageSchedule extends Component {
       currentDate: date[0],
     });
   };
+  handleClickTime = (item) => {
+    let { rangeTime } = this.state;
+    rangeTime.map((child, index) => {
+      return child.id === item.id
+        ? (child.isSelected = !child.isSelected)
+        : child;
+    });
+    this.setState({
+      rangeTime: rangeTime,
+    });
+  };
+  handleAddSchedule = () => {
+    let arrResult = [];
+    let { currentDate, selectedDoctor, rangeTime } = this.state;
+    let selectedDate = moment(currentDate).format("DD/MM/YYYY");
+    let selectedTime = rangeTime.filter((item) => item.isSelected === true);
+    if (selectedTime && selectedTime.length > 0) {
+      selectedTime.map((item) => {
+        let obj = {};
+        obj.doctorId = selectedDoctor.value;
+        obj.time = item.keyMap;
+        obj.date = selectedDate;
+        arrResult.push(obj);
+      });
+    }
+    console.log(arrResult);
+  };
   render() {
     let { listOptionDoctors, selectedDoctor, rangeTime } = this.state;
-    console.log(rangeTime);
     return (
       <>
         <div className="manage-container">
@@ -88,18 +117,22 @@ class ManageSchedule extends Component {
               <label>Chọn ngày</label>
               <DatePicker
                 onChange={this.handleOnChangeDate}
-                value={this.state.currentDate[0]}
+                value={this.state.currentDate}
                 minDate={new Date()}
               ></DatePicker>
             </div>
           </div>
           <div className="detail">
-            <div class="range-time">
+            <div className="range-time">
               {rangeTime &&
-                rangeTime.data &&
-                rangeTime.data.map((item, index) => {
+                rangeTime.map((item, index) => {
                   return (
-                    <button type="button">
+                    <button
+                      type="button"
+                      className={item.isSelected ? "active" : ""}
+                      key={index}
+                      onClick={() => this.handleClickTime(item)}
+                    >
                       {this.props.lang === languages.VI
                         ? item.valueVi
                         : item.valueEn}
@@ -109,7 +142,9 @@ class ManageSchedule extends Component {
             </div>
           </div>
           <div className="submit-button">
-            <button type="button">Lưu thông tin</button>
+            <button type="button" onClick={() => this.handleAddSchedule()}>
+              <FormattedMessage id="common.add" />
+            </button>
           </div>
         </div>
       </>

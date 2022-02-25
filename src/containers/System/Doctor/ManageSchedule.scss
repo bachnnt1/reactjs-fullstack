@@ -16,6 +16,14 @@
   .range-time {
     display: flex;
     gap: 1em;
+    button {
+      border: none;
+      padding: 0.6rem;
+      border-radius: 8px;
+    }
+    .active {
+      background: aquamarine;
+    }
   }
 }
 .submit-button {
