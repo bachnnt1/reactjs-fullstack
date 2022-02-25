@@ -10,6 +10,7 @@ const initialState = {
   topDoctors: [],
   allDoctors: [],
   detailDoctor: {},
+  schedule: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -107,6 +108,16 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.GET_DETAIL_DOCTOR_FAIL:
       state.detailDoctor = {};
+      return {
+        state,
+      };
+    case actionTypes.GET_ALLCODE_HOUR_SUCCESS:
+      state.schedule = action.data;
+      return {
+        ...state,
+      };
+    case actionTypes.GET_ALLCODE_HOUR_FAIl:
+      state.schedule = [];
       return {
         state,
       };

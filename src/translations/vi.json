@@ -62,6 +62,9 @@
       "system-parameter": {
         "header": "Tham số hệ thống"
       }
+    },
+    "doctor": {
+      "manage-schedule": "Quản lý kế hoạch khám bệnh"
     }
   },
   "user": {
@@ -75,5 +78,8 @@
     "position": "Vị trí",
     "role": "chức vụ",
     "image": "Ảnh đại diện"
+  },
+  "manage-schedule": {
+    "title": "Quản lý lịch trình khám bệnh của bác sĩ"
   }
 }

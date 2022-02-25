@@ -15,8 +15,8 @@ export const adminMenu = [
         link: "/system/manage-doctor",
       },
       {
-        name: "menu.system.system-administrator.manage-admin",
-        link: "/system/system-parameter",
+        name: "menu.doctor.manage-schedule",
+        link: "/system/user-redux",
       },
     ],
   },
@@ -38,12 +38,25 @@ export const adminMenu = [
       },
     ],
   },
+
   {
     name: "menu.system.headerFour",
     menus: [
       {
         name: "menu.system.system-administrator.manage-handbook",
         link: "/system/user-redux",
+      },
+    ],
+  },
+];
+
+export const doctorMenu = [
+  {
+    name: "menu.system.header",
+    menus: [
+      {
+        name: "menu.doctor.manage-schedule",
+        link: "/doctor/manage-schedule",
       },
     ],
   },

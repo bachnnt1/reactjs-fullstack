@@ -62,6 +62,9 @@
       "system-parameter": {
         "header": "System-parameter"
       }
+    },
+    "doctor": {
+      "manage-schedule": "Manage doctor's schedule"
     }
   },
   "user": {
@@ -75,5 +78,8 @@
     "position": "position",
     "role": "Role",
     "image": "Avatar"
+  },
+  "manage-schedule": {
+    "title": "Manage Doctor's schedule"
   }
 }

@@ -250,3 +250,27 @@ export const getDetailDocSuccess = (detail) => ({
 export const getDetailDocFail = () => ({
   type: actionTypes.GET_DETAIL_DOCTOR_FAIL,
 });
+
+export const getAllCodeTime = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllCode("time");
+      if (res) {
+        dispatch(getAllCodeTimeSuccess(res.data));
+      } else {
+        dispatch(getAllCodeTimeFail());
+      }
+    } catch (e) {
+      dispatch(getAllCodeTimeFail());
+    }
+  };
+};
+
+export const getAllCodeTimeSuccess = (data) => ({
+  type: actionTypes.GET_ALLCODE_HOUR_SUCCESS,
+  data: data,
+});
+
+export const getAllCodeTimeFail = () => ({
+  type: actionTypes.GET_ALLCODE_HOUR_FAIl,
+});
