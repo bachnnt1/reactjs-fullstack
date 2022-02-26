@@ -9,6 +9,7 @@ class DoctorSchedule extends Component {
     super(props);
     this.state = {
       allDays: [],
+      allAvaiTime: [],
     };
   }
   async componentDidMount() {
@@ -17,7 +18,10 @@ class DoctorSchedule extends Component {
     for (let i = 0; i < 7; i++) {
       let obj = {};
       if (lang === languages.VI) {
-        obj.label = moment(new Date()).add(i, "days").format("dddd - DD/MM");
+        obj.label = moment(new Date())
+          .add(i, "days")
+          .locale("vi")
+          .format("dddd - DD/MM");
       } else {
         obj.label = moment(new Date())
           .add(i, "days")
@@ -62,9 +66,14 @@ class DoctorSchedule extends Component {
       this.props.doctorIdFromParent,
       event.target.value
     );
+    let { scheduleByDate } = this.props;
+    this.setState({
+      allAvaiTime: scheduleByDate,
+    });
   };
   render() {
-    let { allDays } = this.state;
+    let { allDays, allAvaiTime } = this.state;
+    let { lang } = this.props;
     return (
       <>
         <div className="doctor-schedule-container">
@@ -81,7 +90,27 @@ class DoctorSchedule extends Component {
                 })}
             </select>
           </div>
-          <div className="available-time"></div>
+          <div className="available-time">
+            <div className="calendar">
+              <span>
+                <i className="fas fa-calendar-alt" />
+                Lịch khám
+              </span>
+            </div>
+            <div className="time-content">
+              {allAvaiTime && allAvaiTime.length > 0 ? (
+                allAvaiTime.map((item, index) => {
+                  let timeDisplay =
+                    lang === languages.VI
+                      ? item.timeTypeData.valueVi
+                      : item.timeTypeData.valueEn;
+                  return <button key={index}>{timeDisplay}</button>;
+                })
+              ) : (
+                <span>Không có lịch khám ngày này</span>
+              )}
+            </div>
+          </div>
         </div>
       </>
     );
@@ -91,6 +120,7 @@ class DoctorSchedule extends Component {
 const mapStateToProps = (state) => {
   return {
     lang: state.app.language,
+    scheduleByDate: state.admin.scheduleByDate,
   };
 };
 

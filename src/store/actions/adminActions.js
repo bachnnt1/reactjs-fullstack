@@ -304,8 +304,8 @@ export const getScheduleByDoctorId = (doctorId, date) => {
   return async (dispatch, getState) => {
     try {
       let res = await getScheduleByDate(doctorId, date);
-      if (res && res.data) {
-        dispatch(getScheduleByDoctorIdSuccess(res.data));
+      if (res && res.response && res.response.data) {
+        dispatch(getScheduleByDoctorIdSuccess(res.response.data));
       } else {
         dispatch(getScheduleByDoctorIdFail());
       }
