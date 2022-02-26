@@ -11,6 +11,7 @@ const initialState = {
   allDoctors: [],
   detailDoctor: {},
   schedule: [],
+  scheduleByDate: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -118,6 +119,16 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.GET_ALLCODE_HOUR_FAIl:
       state.schedule = [];
+      return {
+        state,
+      };
+    case actionTypes.GET_SCHEDULE_BY_TIME_SUCCESS:
+      state.scheduleByDate = action.data;
+      return {
+        ...state,
+      };
+    case actionTypes.GET_SCHEDULE_BY_TIME_FAIL:
+      state.scheduleByDate = [];
       return {
         state,
       };

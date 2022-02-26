@@ -9,6 +9,7 @@ import {
   postDoctor,
   getDetailDoctorById,
   saveBulkScheduleDoctor,
+  getScheduleByDate,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -297,4 +298,28 @@ export const postBulkScheduleSuccess = () => ({
 
 export const postBulkScheduleFail = () => ({
   type: actionTypes.POST_BULK_SCHEDULE_FAIL,
+});
+
+export const getScheduleByDoctorId = (doctorId, date) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getScheduleByDate(doctorId, date);
+      if (res && res.data) {
+        dispatch(getScheduleByDoctorIdSuccess(res.data));
+      } else {
+        dispatch(getScheduleByDoctorIdFail());
+      }
+    } catch (e) {
+      dispatch(getScheduleByDoctorIdFail());
+    }
+  };
+};
+
+export const getScheduleByDoctorIdSuccess = (data) => ({
+  type: actionTypes.GET_SCHEDULE_BY_TIME_SUCCESS,
+  data: data,
+});
+
+export const getScheduleByDoctorIdFail = () => ({
+  type: actionTypes.GET_SCHEDULE_BY_TIME_FAIL,
 });

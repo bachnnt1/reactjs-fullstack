@@ -4,6 +4,7 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailDoctor.scss";
 import { getDEtailDoctorById } from "../../../store/actions/adminActions";
 import { languages } from "../../../utils";
+import DoctorSchedule from "../../System/Doctor/DoctorSchedule";
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,6 @@ class DetailDoctor extends Component {
   render() {
     let { detailDoctor } = this.state;
     let { lang } = this.props;
-    console.log(detailDoctor);
     let name = "";
     if (detailDoctor && detailDoctor.positionData) {
       name =
@@ -64,7 +64,16 @@ class DetailDoctor extends Component {
                 )}
             </div>
           </div>
-          <div className="schedule-doctor"></div>
+          <div className="schedule-doctor">
+            <div className="content-left">
+              <DoctorSchedule
+                doctorIdFromParent={
+                  detailDoctor && detailDoctor.id ? detailDoctor.id : -1
+                }
+              />
+            </div>
+            <div className="content-right"></div>
+          </div>
           <div className="detail-info">
             {detailDoctor &&
               detailDoctor.Markdown &&

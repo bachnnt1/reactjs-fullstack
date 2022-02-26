@@ -4,13 +4,12 @@ import { connect } from "react-redux";
 import Select from "react-select";
 import DatePicker from "../../../components/Input/DatePicker";
 import {
-  getAllDoctorAction,
   getAllCodeTime,
+  getAllDoctorAction,
   postBulkSchedule,
 } from "../../../store/actions/adminActions";
 import { languages } from "../../../utils";
 import "./ManageSchedule.scss";
-import moment from "moment";
 class ManageSchedule extends Component {
   constructor(props) {
     super(props);
