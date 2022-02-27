@@ -107,10 +107,17 @@ class ManageDoctor extends Component {
           type === "USER" ? `${item.firstName} ${item.lastName}` : item.valueVi;
         let labelEn =
           type === "USER" ? `${item.lastName} ${item.firstName}` : item.valueEn;
-        options.push({
-          label: this.props.language === languages.VI ? labelVi : labelEn,
-          value: item.id,
-        });
+        if (type === "USER") {
+          options.push({
+            label: this.props.language === languages.VI ? labelVi : labelEn,
+            value: item.id,
+          });
+        } else {
+          options.push({
+            label: this.props.language === languages.VI ? labelVi : labelEn,
+            value: item.keyMap,
+          });
+        }
       });
     }
     return options;
@@ -128,18 +135,52 @@ class ManageDoctor extends Component {
   };
   handleChange = async (event) => {
     let doctorDetail = await getDetailDoctorById(event.value);
+    let { listPrice, listPayment, listProvince } = this.state;
     if (
       doctorDetail &&
       doctorDetail.response &&
       doctorDetail.response.data &&
       doctorDetail.response.data.Markdown
     ) {
+      let selectdPrice = "";
+      let selectdCash = "";
+      let selectdProvince = "";
+      let nameClinic = doctorDetail.response.data.Doctor_info
+        ? doctorDetail.response.data.Doctor_info.nameClinic
+        : "";
+      let addressClinic = doctorDetail.response.data.Doctor_info
+        ? doctorDetail.response.data.Doctor_info.addressClinic
+        : "";
+      let note = doctorDetail.response.data.Doctor_info
+        ? doctorDetail.response.data.Doctor_info.note
+        : "";
+      if (doctorDetail.response.data.Doctor_info) {
+        selectdPrice = listPrice.filter((item) => {
+          return item.value === doctorDetail.response.data.Doctor_info.priceId;
+        });
+        selectdCash = listPayment.filter((item) => {
+          return (
+            item.value === doctorDetail.response.data.Doctor_info.paymentId
+          );
+        });
+        selectdProvince = listProvince.filter((item) => {
+          return (
+            item.value === doctorDetail.response.data.Doctor_info.provinceId
+          );
+        });
+      }
       this.setState({
         contentHTML: doctorDetail.response.data.Markdown.contentHTML,
         contentMarkdown: doctorDetail.response.data.Markdown.contentMarkdown,
         description: doctorDetail.response.data.Markdown.description,
         isEdit: true,
         selectedDoctor: event,
+        selectedPrice: selectdPrice,
+        selectedPayment: selectdCash,
+        selectedProvince: selectdProvince,
+        nameClinic: nameClinic,
+        addressClinic: addressClinic,
+        note: note,
       });
     } else {
       this.setState({
@@ -148,6 +189,12 @@ class ManageDoctor extends Component {
         description: "",
         isEdit: false,
         selectedDoctor: event,
+        selectedPrice: "",
+        selectedPayment: "",
+        selectedProvince: "",
+        nameClinic: "",
+        addressClinic: "",
+        note: "",
       });
     }
   };
