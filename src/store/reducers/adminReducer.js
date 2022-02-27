@@ -12,6 +12,7 @@ const initialState = {
   detailDoctor: {},
   schedule: [],
   scheduleByDate: [],
+  allRequiredInfo: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -132,6 +133,17 @@ const appReducer = (state = initialState, action) => {
       return {
         state,
       };
+    case actionTypes.GET_REQUIRE_DOCTOR_INFO_SUCCESS:
+      state.allRequiredInfo = action.data;
+      return {
+        ...state,
+      };
+    case actionTypes.GET_REQUIRE_DOCTOR_INFO_FAIL:
+      state.allRequiredInfo = [];
+      return {
+        state,
+      };
+
     default:
       return state;
   }

@@ -323,3 +323,34 @@ export const getScheduleByDoctorIdSuccess = (data) => ({
 export const getScheduleByDoctorIdFail = () => ({
   type: actionTypes.GET_SCHEDULE_BY_TIME_FAIL,
 });
+
+export const getRequireDoctorInfo = () => {
+  return async (dispatch, getState) => {
+    try {
+      let resPrice = await getAllCode("PRICE");
+      let resPayment = await getAllCode("PAYMENT");
+      let resProvince = await getAllCode("PROVINCE");
+      if (resPrice && resPayment && resProvince) {
+        let data = {
+          resPrice: resPrice,
+          resPayment: resPayment,
+          resProvince: resProvince,
+        };
+        dispatch(getRequireDoctorInfoSuccess(data));
+      } else {
+        dispatch(getRequireDoctorInfoFail());
+      }
+    } catch (e) {
+      dispatch(getRequireDoctorInfoFail());
+    }
+  };
+};
+
+export const getRequireDoctorInfoSuccess = (data) => ({
+  type: actionTypes.GET_REQUIRE_DOCTOR_INFO_SUCCESS,
+  data: data,
+});
+
+export const getRequireDoctorInfoFail = () => ({
+  type: actionTypes.GET_REQUIRE_DOCTOR_INFO_FAIL,
+});

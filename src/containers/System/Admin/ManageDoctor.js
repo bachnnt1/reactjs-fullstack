@@ -7,6 +7,7 @@ import Select from "react-select";
 import {
   getAllDoctorAction,
   postDoctorAction,
+  getRequireDoctorInfo,
 } from "../../../store/actions/adminActions";
 import "./ManageDoctor.scss";
 import "./TableManageUser.scss";
@@ -26,36 +27,92 @@ class ManageDoctor extends Component {
       listDoctors: [],
       listOptionDoctors: [],
       isEdit: false,
+      listPrice: [],
+      listPayment: [],
+      listProvince: [],
+      selectedPrice: "",
+      selectedPayment: "",
+      selectedProvince: "",
+      nameClinic: "",
+      addressClinic: "",
+      note: "",
     };
   }
 
   async componentDidMount() {
     this.props.getAllDoctorAction();
+    this.props.getRequireDoctorInfo();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.allDoctors !== this.props.allDoctors) {
-      let options = this.buildOptionsDoctor();
+      let options = this.buildOptionsDoctor(this.props.allDoctors, "USER");
       this.setState({
         listOptionDoctors: options,
       });
     }
     if (prevProps.language !== this.props.language) {
-      let options = this.buildOptionsDoctor();
+      let options = this.buildOptionsDoctor(this.props.allDoctors, "USER");
       this.setState({
         listOptionDoctors: options,
       });
+      let { resPrice, resPayment, resProvince } = this.props.allRequiredInfo;
+      if (resPrice.data && resPayment.data && resProvince.data) {
+        let optionsPrice = this.buildOptionsDoctor(
+          resPrice.data.data,
+          "NON-USER"
+        );
+        let optionsPayment = this.buildOptionsDoctor(
+          resPayment.data.data,
+          "NON-USER"
+        );
+        let optionsProvince = this.buildOptionsDoctor(
+          resProvince.data.data,
+          "NON-USER"
+        );
+        this.setState({
+          listPrice: optionsPrice,
+          listPayment: optionsPayment,
+          listProvince: optionsProvince,
+        });
+      }
+    }
+    if (prevProps.allRequiredInfo !== this.props.allRequiredInfo) {
+      let { resPrice, resPayment, resProvince } = this.props.allRequiredInfo;
+      if (resPrice.data && resPayment.data && resProvince.data) {
+        let optionsPrice = this.buildOptionsDoctor(
+          resPrice.data.data,
+          "NON-USER"
+        );
+        let optionsPayment = this.buildOptionsDoctor(
+          resPayment.data.data,
+          "NON-USER"
+        );
+        let optionsProvince = this.buildOptionsDoctor(
+          resProvince.data.data,
+          "NON-USER"
+        );
+        this.setState({
+          listPrice: optionsPrice,
+          listPayment: optionsPayment,
+          listProvince: optionsProvince,
+        });
+      }
     }
   }
-  buildOptionsDoctor = () => {
+  buildOptionsDoctor = (inputData, type) => {
     let options = [];
-    this.props.allDoctors.forEach((item, index) => {
-      let labelVi = `${item.firstName} ${item.lastName}`;
-      let labelEn = `${item.lastName} ${item.firstName}`;
-      options.push({
-        label: this.props.language === languages.VI ? labelVi : labelEn,
-        value: item.id,
+    if (inputData) {
+      inputData.forEach((item, index) => {
+        let labelVi =
+          type === "USER" ? `${item.firstName} ${item.lastName}` : item.valueVi;
+        let labelEn =
+          type === "USER" ? `${item.lastName} ${item.firstName}` : item.valueEn;
+        options.push({
+          label: this.props.language === languages.VI ? labelVi : labelEn,
+          value: item.id,
+        });
       });
-    });
+    }
     return options;
   };
 
@@ -106,8 +163,28 @@ class ManageDoctor extends Component {
       description: this.state.description,
       doctorId: this.state.selectedDoctor.value,
       action: this.state.isEdit,
+      selectedPrice: this.state.selectedPrice.value,
+      selectedPayment: this.state.selectedPayment.value,
+      selectedProvince: this.state.selectedProvince.value,
+      nameClinic: this.state.nameClinic,
+      addressClinic: this.state.addressClinic,
+      note: this.state.note,
     };
     this.props.postDoctorAction(data);
+  };
+  handleChangeSelected = (event, fieldSelected) => {
+    let stateCopy = { ...this.state };
+    stateCopy[fieldSelected] = event;
+    this.setState({
+      ...stateCopy,
+    });
+  };
+  handleChangeText = (event, fieldSelected) => {
+    let stateCopy = { ...this.state };
+    stateCopy[fieldSelected] = event.target.value;
+    this.setState({
+      ...stateCopy,
+    });
   };
   render() {
     let {
@@ -116,6 +193,15 @@ class ManageDoctor extends Component {
       listOptionDoctors,
       isEdit,
       contentMarkdown,
+      selectedPrice,
+      selectedPayment,
+      selectedProvince,
+      listPrice,
+      listPayment,
+      listProvince,
+      nameClinic,
+      addressClinic,
+      note,
     } = this.state;
     return (
       <>
@@ -133,6 +219,61 @@ class ManageDoctor extends Component {
             onChange={(event) => this.handleOnChangeDes(event)}
             value={description}
           ></textarea>
+        </div>
+        <div>
+          <div className="required-input">
+            <Select
+              className="select"
+              value={selectedPrice}
+              onChange={(event) =>
+                this.handleChangeSelected(event, "selectedPrice")
+              }
+              options={listPrice}
+              placeholder="Chọn giá"
+            />
+            <Select
+              className="select"
+              value={selectedPayment}
+              onChange={(event) =>
+                this.handleChangeSelected(event, "selectedPayment")
+              }
+              options={listPayment}
+              placeholder="Chọn kiểu thanh toán"
+            />
+            <Select
+              className="select"
+              value={selectedProvince}
+              onChange={(event) =>
+                this.handleChangeSelected(event, "selectedProvince")
+              }
+              options={listProvince}
+              placeholder="Chọn tỉnh"
+            />
+          </div>
+        </div>
+        <div>
+          <div className="required-input">
+            <input
+              type="text"
+              placeholder="Tên phòng khám"
+              value={nameClinic}
+              onChange={(event) => this.handleChangeText(event, "nameClinic")}
+            />
+            <input
+              type="text"
+              placeholder="Địa chỉ phòng khám"
+              value={addressClinic}
+              onChange={(event) =>
+                this.handleChangeText(event, "addressClinic")
+              }
+            />
+            <input
+              type="text"
+              placeholder="Ghi chú"
+              value={note}
+              onChange={(event) => this.handleChangeText(event, "note")}
+            />
+          </div>
         </div>
         <MdEditor
           style={{ height: "500px" }}
@@ -155,6 +296,7 @@ const mapStateToProps = (state) => {
     users: state.admin.users,
     allDoctors: state.admin.allDoctors,
     language: state.app.language,
+    allRequiredInfo: state.admin.allRequiredInfo,
   };
 };
 
@@ -162,6 +304,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllDoctorAction: () => dispatch(getAllDoctorAction()),
     postDoctorAction: (data) => dispatch(postDoctorAction(data)),
+    getRequireDoctorInfo: () => dispatch(getRequireDoctorInfo()),
   };
 };
 
