@@ -38,7 +38,9 @@
     "fail-to-load-all-code": "Fail to load data from allcode",
     "sum": "Sum",
     "date-range-invalid": "Date range invalid",
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "hidden": "Hidden",
+    "seeMore": "See more"
   },
   "menu": {
     "system": {
@@ -77,7 +79,9 @@
     "gender": "Gender",
     "position": "position",
     "role": "Role",
-    "image": "Avatar"
+    "image": "Avatar",
+    "addressExam": "Address exam",
+    "priceExam": "Price"
   },
   "manage-schedule": {
     "title": "Manage Doctor's schedule"

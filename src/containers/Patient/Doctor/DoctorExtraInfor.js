@@ -1,38 +1,74 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./DoctorExtraInfor.scss";
+import { FormattedMessage } from "react-intl";
+import { languages } from "../../../utils";
 class DoctorExtraInfor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowDetail: false,
+      dataExtraInfo: {},
     };
   }
   doShowDetai = () => {
     this.setState({ isShowDetail: !this.state.isShowDetail });
   };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.dataExtrInfo !== this.props.dataExtrInfo) {
+      this.setState({ dataExtraInfo: this.props.dataExtrInfo });
+    }
+  }
+
   render() {
-    let { isShowDetail } = this.state;
+    let { isShowDetail, dataExtraInfo } = this.state;
+    let { lang } = this.props;
     return (
       <div className="extra-container">
         <div className="up">
-          <p className="title-weight">ĐỊA CHỈ KHÁM </p>
-          <b>
-            Phòng khám Da liễu Táo Đỏ 30/1A Ngô Thời Nhiệm, Phường 7, Quận 3,
-            Thành phố Hồ Chí Minh
-          </b>
+          <p className="title-weight">
+            <FormattedMessage id="user.addressExam" />{" "}
+          </p>
+          <b>{dataExtraInfo && dataExtraInfo.addressClinic}</b>
           <p>
             {" "}
-            GIÁ KHÁM <span>250.000đ</span>{" "}
+            <FormattedMessage id="user.priceExam" />{" "}
+            <span>
+              {lang === languages.VI
+                ? dataExtraInfo &&
+                  dataExtraInfo.priceTypeData &&
+                  dataExtraInfo.priceTypeData.valueVi
+                : dataExtraInfo &&
+                  dataExtraInfo.priceTypeData &&
+                  dataExtraInfo.priceTypeData.valueEn}{" "}
+              {lang === languages.VI ? "vnđ" : "$"}
+            </span>{" "}
             <span className="see-more" onClick={this.doShowDetai}>
               {" "}
-              {isShowDetail ? "Ẩn chi tiết" : "Xem chi tiết "}
+              {isShowDetail ? (
+                <FormattedMessage id="common.hidden" />
+              ) : (
+                <FormattedMessage id="common.seeMore" />
+              )}
             </span>
           </p>
         </div>
         {isShowDetail && (
           <div className="down">
-            <span>Giá khám: 250.000 vnđ</span>
+            <span>
+              <FormattedMessage id="user.priceExam" /> :{" "}
+              <span>
+                {lang === languages.VI
+                  ? dataExtraInfo &&
+                    dataExtraInfo.priceTypeData &&
+                    dataExtraInfo.priceTypeData.valueVi
+                  : dataExtraInfo &&
+                    dataExtraInfo.priceTypeData &&
+                    dataExtraInfo.priceTypeData.valueEn}{" "}
+                {lang === languages.VI ? "vnđ" : "$"}
+              </span>
+            </span>
           </div>
         )}
       </div>
@@ -41,7 +77,9 @@ class DoctorExtraInfor extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    lang: state.app.language,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

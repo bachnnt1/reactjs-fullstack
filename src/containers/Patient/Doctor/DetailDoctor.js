@@ -74,7 +74,9 @@ class DetailDoctor extends Component {
               />
             </div>
             <div className="content-right">
-              <DoctorExtraInfor />
+              <DoctorExtraInfor
+                dataExtrInfo={detailDoctor && detailDoctor.Doctor_info}
+              />
             </div>
           </div>
           <div className="detail-info">

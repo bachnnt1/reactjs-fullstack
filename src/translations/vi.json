@@ -38,7 +38,9 @@
     "fail-to-load-all-code": "Không thể tải về dữ liệu allcode",
     "sum": "Tổng",
     "date-range-invalid": "Khoảng thời gian không hợp lệ",
-    "welcome": "Xin chào"
+    "welcome": "Xin chào",
+    "hidden": "Ẩn",
+    "seeMore": "Xem thêm"
   },
   "menu": {
     "system": {
@@ -77,7 +79,9 @@
     "gender": "Giới tính",
     "position": "Vị trí",
     "role": "chức vụ",
-    "image": "Ảnh đại diện"
+    "image": "Ảnh đại diện",
+    "addressExam": "Địa chỉ khám",
+    "priceExam": "Giá khám"
   },
   "manage-schedule": {
     "title": "Quản lý lịch trình khám bệnh của bác sĩ"
