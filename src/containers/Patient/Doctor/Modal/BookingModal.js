@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./BookingModal.scss";
 import { Modal } from "reactstrap";
+import ProfileDoctor from "../ProfileDoctor";
 class BookingModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpenBookingModal: false,
       timeDetail: {},
+      doctorId: "",
     };
   }
   componentDidMount() {}
@@ -22,12 +24,17 @@ class BookingModal extends Component {
         timeDetail: this.props.timeDetail,
       });
     }
+    if (prevProps.doctorId !== this.props.doctorId) {
+      this.setState({
+        doctorId: this.props.doctorId,
+      });
+    }
   }
   noRefCheck = () => {
     this.props.toogleFromParent();
   };
   render() {
-    let { isOpenBookingModal, timeDetail } = this.state;
+    let { isOpenBookingModal, timeDetail, doctorId } = this.state;
     return (
       <div>
         <Modal
@@ -38,7 +45,8 @@ class BookingModal extends Component {
           className="boundary"
         >
           <div className="modal-booking-container">
-            <p>Thông tin đặt lịch khám bệnh</p>
+            <p className="title">Thông tin đặt lịch khám bệnh</p>
+            <ProfileDoctor doctorId={doctorId} />
             <div className="parent">
               <div className="content">
                 <label> Họ tên</label>

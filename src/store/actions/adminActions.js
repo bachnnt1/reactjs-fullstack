@@ -10,6 +10,7 @@ import {
   getDetailDoctorById,
   saveBulkScheduleDoctor,
   getScheduleByDate,
+  getProfilebyId,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -353,4 +354,28 @@ export const getRequireDoctorInfoSuccess = (data) => ({
 
 export const getRequireDoctorInfoFail = () => ({
   type: actionTypes.GET_REQUIRE_DOCTOR_INFO_FAIL,
+});
+
+export const getProfileById = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getProfilebyId(id);
+      if (res) {
+        dispatch(getProfileSuccess(res));
+      } else {
+        dispatch(getProfileFail());
+      }
+    } catch (e) {
+      dispatch(getProfileFail());
+    }
+  };
+};
+
+export const getProfileSuccess = (detail) => ({
+  type: actionTypes.GET_PROFILE_SUCCESS,
+  detail: detail,
+});
+
+export const getProfileFail = () => ({
+  type: actionTypes.GET_PROFILE_FAIL,
 });

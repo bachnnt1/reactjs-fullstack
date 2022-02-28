@@ -13,6 +13,7 @@ const initialState = {
   schedule: [],
   scheduleByDate: [],
   allRequiredInfo: [],
+  profile: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -140,6 +141,16 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.GET_REQUIRE_DOCTOR_INFO_FAIL:
       state.allRequiredInfo = [];
+      return {
+        state,
+      };
+    case actionTypes.GET_PROFILE_SUCCESS:
+      state.profile = action.detail;
+      return {
+        ...state,
+      };
+    case actionTypes.GET_PROFILE_FAIL:
+      state.profile = {};
       return {
         state,
       };

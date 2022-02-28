@@ -2,25 +2,29 @@
   width: fit-content !important;
 }
 .modal-booking-container {
-  height: 25rem;
-  p {
+  height: fit-content;
+  .title {
     font-weight: 600;
     text-align: center;
-    padding-top: 10px;
+    padding: 2em;
     border-bottom: solid 1px grey;
   }
   .parent {
     display: flex;
-    gap: 2em;
-    padding: 0 2em;
+    grid-gap: 4em;
+    gap: 4em;
+    padding: 1em 4em;
   }
   .content-exam {
     display: flex;
     flex-direction: column;
     width: 100%;
+    input {
+      width: 100%;
+    }
   }
   input {
-    width: 15em;
+    width: 20em;
   }
   .footer {
     display: flex;

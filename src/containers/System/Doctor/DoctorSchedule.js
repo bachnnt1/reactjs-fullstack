@@ -137,6 +137,7 @@ class DoctorSchedule extends Component {
           isOpenBookingModal={isOpenBookingModal}
           timeDetail={timeDetail}
           toogleFromParent={this.toogleFromParent}
+          doctorId={this.props.doctorIdFromParent}
         />
       </>
     );

@@ -45,6 +45,10 @@ const getScheduleByDate = (doctorId, date) => {
     `/api/get-schedule-by-date?doctorId=${doctorId}&date=${date}`
   );
 };
+const getProfilebyId = (doctorId) => {
+  return axios.get(`/api/get-profile-by-id?doctorId=${doctorId}`);
+};
+
 export {
   handeLogin,
   getAllUsers,
@@ -58,4 +62,5 @@ export {
   getDetailDoctorById,
   saveBulkScheduleDoctor,
   getScheduleByDate,
+  getProfilebyId,
 };
