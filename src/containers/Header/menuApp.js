@@ -16,7 +16,7 @@ export const adminMenu = [
       },
       {
         name: "menu.doctor.manage-schedule",
-        link: "/system/user-redux",
+        link: "/doctor/manage-schedule",
       },
     ],
   },

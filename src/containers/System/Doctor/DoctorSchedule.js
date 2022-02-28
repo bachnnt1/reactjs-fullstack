@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import { languages } from "../../../utils";
 import { getScheduleByDoctorId } from "../../../store/actions";
 import "./DoctorSchedule.scss";
+import BookingModal from "../../Patient/Doctor/Modal/BookingModal";
 class DoctorSchedule extends Component {
   constructor(props) {
     super(props);
     this.state = {
       allDays: [],
       allAvaiTime: [],
+      isOpenBookingModal: false,
+      timeDetail: {},
     };
   }
   async componentDidMount() {
@@ -71,8 +74,19 @@ class DoctorSchedule extends Component {
       allAvaiTime: scheduleByDate,
     });
   };
+  showDetailSchedule = (item) => {
+    this.setState({
+      isOpenBookingModal: true,
+      timeDetail: item,
+    });
+  };
+  toogleFromParent = () => {
+    this.setState({
+      isOpenBookingModal: false,
+    });
+  };
   render() {
-    let { allDays, allAvaiTime } = this.state;
+    let { allDays, allAvaiTime, isOpenBookingModal, timeDetail } = this.state;
     let { lang } = this.props;
     return (
       <>
@@ -104,7 +118,14 @@ class DoctorSchedule extends Component {
                     lang === languages.VI
                       ? item.timeTypeData.valueVi
                       : item.timeTypeData.valueEn;
-                  return <button key={index}>{timeDisplay}</button>;
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => this.showDetailSchedule(item)}
+                    >
+                      {timeDisplay}
+                    </button>
+                  );
                 })
               ) : (
                 <span>Không có lịch khám ngày này</span>
@@ -112,6 +133,11 @@ class DoctorSchedule extends Component {
             </div>
           </div>
         </div>
+        <BookingModal
+          isOpenBookingModal={isOpenBookingModal}
+          timeDetail={timeDetail}
+          toogleFromParent={this.toogleFromParent}
+        />
       </>
     );
   }
