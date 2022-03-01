@@ -32,6 +32,10 @@ const postDoctor = (data) => {
   return axios.post("/api/save-info-doctor", data);
 };
 
+const postAppointment = (data) => {
+  return axios.post("/api/book-appointment", data);
+};
+
 const getDetailDoctorById = (id) => {
   return axios.get(`/api/get-detail-doctor?id=${id}`);
 };
@@ -63,4 +67,5 @@ export {
   saveBulkScheduleDoctor,
   getScheduleByDate,
   getProfilebyId,
+  postAppointment,
 };

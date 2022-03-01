@@ -11,6 +11,7 @@ import {
   saveBulkScheduleDoctor,
   getScheduleByDate,
   getProfilebyId,
+  postAppointment,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -378,4 +379,27 @@ export const getProfileSuccess = (detail) => ({
 
 export const getProfileFail = () => ({
   type: actionTypes.GET_PROFILE_FAIL,
+});
+
+export const postAppointmentAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await postAppointment(data);
+      if (res) {
+        dispatch(postAppointmentSuccess());
+      } else {
+        dispatch(postAppointmentFail());
+      }
+    } catch (e) {
+      dispatch(postAppointmentFail());
+    }
+  };
+};
+
+export const postAppointmentSuccess = () => ({
+  type: actionTypes.POST_APPOINTMENT_SUCCESS,
+});
+
+export const postAppointmentFail = () => ({
+  type: actionTypes.POST_APPOINTMENT_FAIL,
 });

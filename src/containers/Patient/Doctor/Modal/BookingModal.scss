@@ -15,6 +15,16 @@
     gap: 4em;
     padding: 1em 4em;
   }
+  .parent-last {
+    .content {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      select {
+        height: 100%;
+      }
+    }
+  }
   .content-exam {
     display: flex;
     flex-direction: column;
