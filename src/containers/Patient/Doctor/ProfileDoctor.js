@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import "./ProfileDoctor.scss";
 import { getProfileById } from "../../../store/actions";
 import { languages } from "../../../utils";
+
+import localization from "moment/locale/vi";
+import moment from "moment";
 class ProfileDoctor extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +24,29 @@ class ProfileDoctor extends Component {
       });
     }
   }
+  renderTimeBooking = (timeDetail) => {
+    let { lang } = this.props;
+    let timeTypeValue =
+      lang === languages.VI
+        ? timeDetail.timeTypeData.valueVi
+        : timeDetail.timeTypeData.valueEn;
+    let date =
+      lang === languages.VI
+        ? moment.unix(+timeDetail.date / 1000).format("dddd - DD/MM/YYYY")
+        : moment
+            .unix(+timeDetail.date / 1000)
+            .locale("en")
+            .format("ddd - DD/MM/YYYY");
+    return (
+      <div>
+        {date}
+        <p>{timeTypeValue}</p>
+      </div>
+    );
+  };
   render() {
     let { profile } = this.state;
-    let { lang } = this.props;
+    let { lang, timeDetail, isShowDescription } = this.props;
     let name = "";
     if (
       profile &&
@@ -48,17 +71,20 @@ class ProfileDoctor extends Component {
                 }}
               ></div>
             )}
+            {this.renderTimeBooking(timeDetail)}
           </div>
-          <div className="content-right">
-            <p>{name}</p>
-            {profile &&
-              profile.response &&
-              profile.response.data &&
-              profile.response.data.Markdown &&
-              profile.response.data.Markdown.description && (
-                <p>{profile.response.data.Markdown.description}</p>
-              )}
-          </div>
+          {isShowDescription && (
+            <div className="content-right">
+              <p>{name}</p>
+              {profile &&
+                profile.response &&
+                profile.response.data &&
+                profile.response.data.Markdown &&
+                profile.response.data.Markdown.description && (
+                  <p>{profile.response.data.Markdown.description}</p>
+                )}
+            </div>
+          )}
         </div>
       </>
     );
