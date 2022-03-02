@@ -12,6 +12,7 @@ import {
   getScheduleByDate,
   getProfilebyId,
   postAppointment,
+  verifyBookAppointment,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -402,4 +403,28 @@ export const postAppointmentSuccess = () => ({
 
 export const postAppointmentFail = () => ({
   type: actionTypes.POST_APPOINTMENT_FAIL,
+});
+
+export const verifyEmailAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await verifyBookAppointment(data);
+      if (res) {
+        dispatch(verifyEmailActionSuccess(res));
+      } else {
+        dispatch(verifyEmailActionFail());
+      }
+    } catch (e) {
+      dispatch(verifyEmailActionFail());
+    }
+  };
+};
+
+export const verifyEmailActionSuccess = (res) => ({
+  type: actionTypes.VERIFY_EMAIL_SUCCESS,
+  res: res,
+});
+
+export const verifyEmailActionFail = () => ({
+  type: actionTypes.VERIFY_EMAIL_FAIL,
 });

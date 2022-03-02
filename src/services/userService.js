@@ -53,6 +53,9 @@ const getProfilebyId = (doctorId) => {
   return axios.get(`/api/get-profile-by-id?doctorId=${doctorId}`);
 };
 
+const verifyBookAppointment = (data) => {
+  return axios.post(`/api/verify-book-appointment`, data);
+};
 export {
   handeLogin,
   getAllUsers,
@@ -68,4 +71,5 @@ export {
   getScheduleByDate,
   getProfilebyId,
   postAppointment,
+  verifyBookAppointment
 };

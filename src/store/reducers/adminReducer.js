@@ -14,6 +14,7 @@ const initialState = {
   scheduleByDate: [],
   allRequiredInfo: [],
   profile: {},
+  resVerifyEmail: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -151,6 +152,16 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.GET_PROFILE_FAIL:
       state.profile = {};
+      return {
+        state,
+      };
+    case actionTypes.VERIFY_EMAIL_SUCCESS:
+      state.resVerifyEmail = action.res;
+      return {
+        ...state,
+      };
+    case actionTypes.VERIFY_EMAIL_FAIL:
+      state.resVerifyEmail = {};
       return {
         state,
       };
