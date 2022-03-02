@@ -84,6 +84,7 @@ class BookingModal extends Component {
       gender: this.state.gender,
       doctorId: doctorIdState,
       timeType: timeDetail ? timeDetail.timeType : "",
+      timeDetail: timeDetail,
     });
   };
   render() {
