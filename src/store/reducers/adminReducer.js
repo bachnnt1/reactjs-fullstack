@@ -16,6 +16,7 @@ const initialState = {
   profile: {},
   resVerifyEmail: {},
   resCreateSpecial: {},
+  allSpecialties: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -173,6 +174,17 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.CREATE_SPECIALTY_FAIL:
       state.resCreateSpecial = {};
+      return {
+        state,
+      };
+
+    case actionTypes.FETCH_ALL_SPECIALTY_SUCCESS:
+      state.allSpecialties = action.data;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_ALL_SPECIALTY_FAIL:
+      state.allSpecialties = [];
       return {
         state,
       };
