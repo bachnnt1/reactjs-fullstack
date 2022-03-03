@@ -4,6 +4,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { getAllSpecialtyAction } from "../../../store/actions";
+import { withRouter } from "react-router";
+import "./Specialty.scss";
 class Specility extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,9 @@ class Specility extends Component {
   componentDidMount() {
     this.props.getAllSpecialtyAction();
   }
+  handleViewDetailSpecialty = (spe) => {
+    this.props.history.push(`/detail-specialty/${spe.id}`);
+  };
   render() {
     let { arrSpecialties } = this.state;
     return (
@@ -37,7 +42,11 @@ class Specility extends Component {
                 arrSpecialties.infor.data.length > 0 &&
                 arrSpecialties.infor.data.map((item, index) => {
                   return (
-                    <div className="img-customize" key={index}>
+                    <div
+                      className="img-customize"
+                      key={index}
+                      onClick={() => this.handleViewDetailSpecialty(item)}
+                    >
                       <div
                         className="bg-image bg-image-speciality"
                         style={{ backgroundImage: `url(${item.image})` }}
@@ -62,4 +71,6 @@ const mapDispatchToProps = (dispatch) => {
   return { getAllSpecialtyAction: () => dispatch(getAllSpecialtyAction()) };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specility);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Specility)
+);

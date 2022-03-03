@@ -30,9 +30,13 @@ class ManageDoctor extends Component {
       listPrice: [],
       listPayment: [],
       listProvince: [],
+      listSpe: [],
+      listClinic: [],
       selectedPrice: "",
       selectedPayment: "",
       selectedProvince: "",
+      selectedClinic: "",
+      selectedSpecialty: "",
       nameClinic: "",
       addressClinic: "",
       note: "",
@@ -55,8 +59,14 @@ class ManageDoctor extends Component {
       this.setState({
         listOptionDoctors: options,
       });
-      let { resPrice, resPayment, resProvince } = this.props.allRequiredInfo;
-      if (resPrice.data && resPayment.data && resProvince.data) {
+      let { resPrice, resPayment, resProvince, listSpecialty } =
+        this.props.allRequiredInfo;
+      if (
+        resPrice.data &&
+        resPayment.data &&
+        resProvince.data &&
+        listSpecialty
+      ) {
         let optionsPrice = this.buildOptionsDoctor(
           resPrice.data.data,
           "NON-USER"
@@ -69,16 +79,35 @@ class ManageDoctor extends Component {
           resProvince.data.data,
           "NON-USER"
         );
+        let listSpe = [];
+        if (listSpecialty && listSpecialty.infor && listSpecialty.infor.data) {
+          listSpecialty.infor.data.forEach((item) => {
+            if (item) {
+              let obj = {
+                label: item.name,
+                value: item.id,
+              };
+              listSpe.push(obj);
+            }
+          });
+        }
         this.setState({
           listPrice: optionsPrice,
           listPayment: optionsPayment,
           listProvince: optionsProvince,
+          listSpe: listSpe,
         });
       }
     }
     if (prevProps.allRequiredInfo !== this.props.allRequiredInfo) {
-      let { resPrice, resPayment, resProvince } = this.props.allRequiredInfo;
-      if (resPrice.data && resPayment.data && resProvince.data) {
+      let { resPrice, resPayment, resProvince, listSpecialty } =
+        this.props.allRequiredInfo;
+      if (
+        resPrice.data &&
+        resPayment.data &&
+        resProvince.data &&
+        listSpecialty
+      ) {
         let optionsPrice = this.buildOptionsDoctor(
           resPrice.data.data,
           "NON-USER"
@@ -91,10 +120,23 @@ class ManageDoctor extends Component {
           resProvince.data.data,
           "NON-USER"
         );
+        let listSpe = [];
+        if (listSpecialty && listSpecialty.infor && listSpecialty.infor.data) {
+          listSpecialty.infor.data.forEach((item) => {
+            if (item) {
+              let obj = {
+                label: item.name,
+                value: item.id,
+              };
+              listSpe.push(obj);
+            }
+          });
+        }
         this.setState({
           listPrice: optionsPrice,
           listPayment: optionsPayment,
           listProvince: optionsProvince,
+          listSpe: listSpe,
         });
       }
     }
@@ -135,7 +177,8 @@ class ManageDoctor extends Component {
   };
   handleChange = async (event) => {
     let doctorDetail = await getDetailDoctorById(event.value);
-    let { listPrice, listPayment, listProvince } = this.state;
+    console.log(doctorDetail);
+    let { listPrice, listPayment, listProvince, listSpe } = this.state;
     if (
       doctorDetail &&
       doctorDetail.response &&
@@ -145,6 +188,8 @@ class ManageDoctor extends Component {
       let selectdPrice = "";
       let selectdCash = "";
       let selectdProvince = "";
+      let selectedClinic = "";
+      let selectedSpecialty = "";
       let nameClinic = doctorDetail.response.data.Doctor_info
         ? doctorDetail.response.data.Doctor_info.nameClinic
         : "";
@@ -168,6 +213,11 @@ class ManageDoctor extends Component {
             item.value === doctorDetail.response.data.Doctor_info.provinceId
           );
         });
+        selectedSpecialty = listSpe.filter((item) => {
+          return (
+            item.value === doctorDetail.response.data.Doctor_info.specialtyId
+          );
+        });
       }
       this.setState({
         contentHTML: doctorDetail.response.data.Markdown.contentHTML,
@@ -181,6 +231,8 @@ class ManageDoctor extends Component {
         nameClinic: nameClinic,
         addressClinic: addressClinic,
         note: note,
+        selectedClinic: selectedClinic, // TODO
+        selectedSpecialty: selectedSpecialty,
       });
     } else {
       this.setState({
@@ -195,6 +247,8 @@ class ManageDoctor extends Component {
         nameClinic: "",
         addressClinic: "",
         note: "",
+        selectedClinic: "",
+        selectedSpecialty: "",
       });
     }
   };
@@ -216,6 +270,8 @@ class ManageDoctor extends Component {
       nameClinic: this.state.nameClinic,
       addressClinic: this.state.addressClinic,
       note: this.state.note,
+      selectedClinic: this.state.selectedClinic, //TODO
+      selectedSpecialty: this.state.selectedSpecialty.value,
     };
     this.props.postDoctorAction(data);
   };
@@ -249,6 +305,10 @@ class ManageDoctor extends Component {
       nameClinic,
       addressClinic,
       note,
+      selectedClinic,
+      selectedSpecialty,
+      listSpe,
+      listClinic,
     } = this.state;
     return (
       <>
@@ -295,6 +355,26 @@ class ManageDoctor extends Component {
               }
               options={listProvince}
               placeholder="Chọn tỉnh"
+            />
+          </div>
+          <div className="required-input">
+            <Select
+              className="select"
+              value={selectedSpecialty}
+              onChange={(event) =>
+                this.handleChangeSelected(event, "selectedSpecialty")
+              }
+              options={listSpe}
+              placeholder="Chọn chuyên khoa"
+            />
+            <Select
+              className="select"
+              value={selectedClinic}
+              onChange={(event) =>
+                this.handleChangeSelected(event, "selectedClinic")
+              }
+              options={listClinic}
+              placeholder="Chọn phòng khám"
             />
           </div>
         </div>

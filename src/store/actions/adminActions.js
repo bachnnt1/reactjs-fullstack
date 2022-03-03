@@ -335,11 +335,13 @@ export const getRequireDoctorInfo = () => {
       let resPrice = await getAllCode("PRICE");
       let resPayment = await getAllCode("PAYMENT");
       let resProvince = await getAllCode("PROVINCE");
-      if (resPrice && resPayment && resProvince) {
+      let listSpecialty = await getAllSpecialty();
+      if (resPrice && resPayment && resProvince && listSpecialty) {
         let data = {
           resPrice: resPrice,
           resPayment: resPayment,
           resProvince: resProvince,
+          listSpecialty: listSpecialty,
         };
         dispatch(getRequireDoctorInfoSuccess(data));
       } else {
