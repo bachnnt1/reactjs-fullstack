@@ -34,7 +34,7 @@ export const adminMenu = [
     menus: [
       {
         name: "menu.system.system-administrator.manage-special",
-        link: "/system/user-redux",
+        link: "/system/manage-speciality",
       },
     ],
   },

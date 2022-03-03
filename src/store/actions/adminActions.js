@@ -13,6 +13,7 @@ import {
   getProfilebyId,
   postAppointment,
   verifyBookAppointment,
+  createNewSpecialty,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -427,4 +428,28 @@ export const verifyEmailActionSuccess = (res) => ({
 
 export const verifyEmailActionFail = () => ({
   type: actionTypes.VERIFY_EMAIL_FAIL,
+});
+
+export const createNewSpecialtyAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await createNewSpecialty(data);
+      if (res) {
+        dispatch(createSpecialtySuccess(res));
+      } else {
+        dispatch(createSpecialtyFail());
+      }
+    } catch (e) {
+      dispatch(createSpecialtyFail());
+    }
+  };
+};
+
+export const createSpecialtySuccess = (res) => ({
+  type: actionTypes.CREATE_SPECIALTY_SUCCESS,
+  res: res,
+});
+
+export const createSpecialtyFail = () => ({
+  type: actionTypes.CREATE_SPECIALTY_FAIL,
 });

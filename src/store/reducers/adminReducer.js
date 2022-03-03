@@ -15,6 +15,7 @@ const initialState = {
   allRequiredInfo: [],
   profile: {},
   resVerifyEmail: {},
+  resCreateSpecial: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -162,6 +163,16 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.VERIFY_EMAIL_FAIL:
       state.resVerifyEmail = {};
+      return {
+        state,
+      };
+    case actionTypes.CREATE_SPECIALTY_SUCCESS:
+      state.resCreateSpecial = action.res;
+      return {
+        ...state,
+      };
+    case actionTypes.CREATE_SPECIALTY_FAIL:
+      state.resCreateSpecial = {};
       return {
         state,
       };
