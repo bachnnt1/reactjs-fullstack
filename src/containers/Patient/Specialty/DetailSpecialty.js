@@ -71,6 +71,10 @@ class DetailSpecialty extends Component {
           });
         }
       });
+      options.unshift({
+        label: "ALL",
+        value: "ALL",
+      });
     }
     return options;
   };
@@ -103,52 +107,57 @@ class DetailSpecialty extends Component {
     });
     return (
       <>
-        <HomeHeader />
-        <div className="intro-specialty">
-          {specialtyById && specialtyById.infor && specialtyById.infor.data && (
-            <p className="title-spe">{specialtyById.infor.data.name}</p>
-          )}
-          {specialtyById && specialtyById.infor && specialtyById.infor.data && (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: specialtyById.infor.data.descriptionHTML,
-              }}
-            />
-          )}
-        </div>
-        <div className="select-province">
-          <select onChange={(event) => this.handleOnChangeInput(event)}>
-            {listProvince.map((item, index) => {
-              return (
-                <option key={index} value={item.value}>
-                  {item.label}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        {listIdDoctor.map((item, index) => {
-          let indexProfile = index;
-          return (
-            <div className="detail-container">
-              <div className="detail-first-child">
-                <ProfileDoctor
-                  key={indexProfile}
-                  doctorId={item.id}
-                  isShowDescription={true}
-                />
-              </div>
-              <div className="detail-child">
-                <div className="content-up">
-                  <DoctorSchedule key={index} doctorIdFromParent={item.id} />
+        {" "}
+        <div className="boundary">
+          <HomeHeader />
+          <div className="intro-specialty">
+            {specialtyById &&
+              specialtyById.infor &&
+              specialtyById.infor.data && (
+                <p className="title-spe">{specialtyById.infor.data.name}</p>
+              )}
+            {specialtyById && specialtyById.infor && specialtyById.infor.data && (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: specialtyById.infor.data.descriptionHTML,
+                }}
+              />
+            )}
+          </div>
+          <div className="select-province">
+            <select onChange={(event) => this.handleOnChangeInput(event)}>
+              {listProvince.map((item, index) => {
+                return (
+                  <option key={index} value={item.value}>
+                    {item.label}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {listIdDoctor.map((item, index) => {
+            let indexProfile = index;
+            return (
+              <div className="detail-container">
+                <div className="detail-first-child">
+                  <ProfileDoctor
+                    key={indexProfile}
+                    doctorId={item.id}
+                    isShowDescription={true}
+                  />
                 </div>
-                <div className="content-down">
-                  <DoctorExtraInfor key={item} doctorIdFromParent={item.id} />
+                <div className="detail-child">
+                  <div className="content-up">
+                    <DoctorSchedule key={index} doctorIdFromParent={item.id} />
+                  </div>
+                  <div className="content-down">
+                    <DoctorExtraInfor key={item} doctorIdFromParent={item.id} />
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </>
     );
   }
