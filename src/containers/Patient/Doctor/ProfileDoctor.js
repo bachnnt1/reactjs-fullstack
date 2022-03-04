@@ -1,11 +1,10 @@
+import moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./ProfileDoctor.scss";
 import { getProfileById } from "../../../store/actions";
 import { languages } from "../../../utils";
+import "./ProfileDoctor.scss";
 
-import localization from "moment/locale/vi";
-import moment from "moment";
 class ProfileDoctor extends Component {
   constructor(props) {
     super(props);
@@ -25,24 +24,26 @@ class ProfileDoctor extends Component {
     }
   }
   renderTimeBooking = (timeDetail) => {
-    let { lang } = this.props;
-    let timeTypeValue =
-      lang === languages.VI
-        ? timeDetail.timeTypeData.valueVi
-        : timeDetail.timeTypeData.valueEn;
-    let date =
-      lang === languages.VI
-        ? moment.unix(+timeDetail.date / 1000).format("dddd - DD/MM/YYYY")
-        : moment
-            .unix(+timeDetail.date / 1000)
-            .locale("en")
-            .format("ddd - DD/MM/YYYY");
-    return (
-      <div>
-        {date}
-        <p>{timeTypeValue}</p>
-      </div>
-    );
+    if (timeDetail) {
+      let { lang } = this.props;
+      let timeTypeValue =
+        lang === languages.VI
+          ? timeDetail.timeTypeData.valueVi
+          : timeDetail.timeTypeData.valueEn;
+      let date =
+        lang === languages.VI
+          ? moment.unix(+timeDetail.date / 1000).format("dddd - DD/MM/YYYY")
+          : moment
+              .unix(+timeDetail.date / 1000)
+              .locale("en")
+              .format("ddd - DD/MM/YYYY");
+      return (
+        <div>
+          {date}
+          <p>{timeTypeValue}</p>
+        </div>
+      );
+    }
   };
   render() {
     let { profile } = this.state;

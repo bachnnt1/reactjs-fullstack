@@ -15,6 +15,7 @@ import {
   verifyBookAppointment,
   createNewSpecialty,
   getAllSpecialty,
+  getSpecialtyById,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -479,4 +480,28 @@ export const getAllSpecialtySuccess = (data) => ({
 
 export const getAllSpecialtyFail = () => ({
   type: actionTypes.FETCH_ALL_SPECIALTY_FAIL,
+});
+
+export const getSpecialById = (id, location) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getSpecialtyById(id, location);
+      if (res) {
+        dispatch(getSpecialbyIdSuccess(res));
+      } else {
+        dispatch(getSpecialbyIdFail());
+      }
+    } catch (e) {
+      dispatch(getSpecialbyIdFail());
+    }
+  };
+};
+
+export const getSpecialbyIdSuccess = (detail) => ({
+  type: actionTypes.FETCH_SPECIALTY__ID_SUCCESS,
+  detail: detail,
+});
+
+export const getSpecialbyIdFail = () => ({
+  type: actionTypes.FETCH_SPECIALTY__ID_FAIL,
 });

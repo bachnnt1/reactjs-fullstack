@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import "./DoctorExtraInfor.scss";
 import { FormattedMessage } from "react-intl";
 import { languages } from "../../../utils";
+import { getDEtailDoctorById } from "../../../store/actions/adminActions";
 class DoctorExtraInfor extends Component {
   constructor(props) {
     super(props);
@@ -11,16 +12,19 @@ class DoctorExtraInfor extends Component {
       dataExtraInfo: {},
     };
   }
-  doShowDetai = () => {
-    this.setState({ isShowDetail: !this.state.isShowDetail });
-  };
+  async componentDidMount() {
+    await this.props.getDetailDoctorById(this.props.doctorIdFromParent);
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.dataExtrInfo !== this.props.dataExtrInfo) {
-      this.setState({ dataExtraInfo: this.props.dataExtrInfo });
+    if (prevProps.detailDoctor !== this.props.detailDoctor) {
+      this.setState({ dataExtraInfo: this.props.detailDoctor.response });
     }
   }
 
+  doShowDetai = () => {
+    this.setState({ isShowDetail: !this.state.isShowDetail });
+  };
   render() {
     let { isShowDetail, dataExtraInfo } = this.state;
     let { lang } = this.props;
@@ -30,18 +34,27 @@ class DoctorExtraInfor extends Component {
           <p className="title-weight">
             <FormattedMessage id="user.addressExam" />{" "}
           </p>
-          <b>{dataExtraInfo && dataExtraInfo.addressClinic}</b>
+          <b>
+            {dataExtraInfo &&
+              dataExtraInfo.data &&
+              dataExtraInfo.data.Doctor_info &&
+              dataExtraInfo.data.Doctor_info.addressClinic}
+          </b>
           <p>
             {" "}
             <FormattedMessage id="user.priceExam" />{" "}
             <span>
               {lang === languages.VI
                 ? dataExtraInfo &&
-                  dataExtraInfo.priceTypeData &&
-                  dataExtraInfo.priceTypeData.valueVi
+                  dataExtraInfo.data &&
+                  dataExtraInfo.data.Doctor_info &&
+                  dataExtraInfo.data.Doctor_info.priceTypeData &&
+                  dataExtraInfo.data.Doctor_info.priceTypeData.valueVi
                 : dataExtraInfo &&
-                  dataExtraInfo.priceTypeData &&
-                  dataExtraInfo.priceTypeData.valueEn}{" "}
+                  dataExtraInfo.data &&
+                  dataExtraInfo.data.Doctor_info &&
+                  dataExtraInfo.data.Doctor_info.priceTypeData &&
+                  dataExtraInfo.data.Doctor_info.priceTypeData.valueEn}{" "}
               {lang === languages.VI ? "vnđ" : "$"}
             </span>{" "}
             <span className="see-more" onClick={this.doShowDetai}>
@@ -61,11 +74,15 @@ class DoctorExtraInfor extends Component {
               <span>
                 {lang === languages.VI
                   ? dataExtraInfo &&
-                    dataExtraInfo.priceTypeData &&
-                    dataExtraInfo.priceTypeData.valueVi
+                    dataExtraInfo.data &&
+                    dataExtraInfo.data.Doctor_info &&
+                    dataExtraInfo.data.Doctor_info.priceTypeData &&
+                    dataExtraInfo.data.Doctor_info.priceTypeData.valueVi
                   : dataExtraInfo &&
-                    dataExtraInfo.priceTypeData &&
-                    dataExtraInfo.priceTypeData.valueEn}{" "}
+                    dataExtraInfo.data &&
+                    dataExtraInfo.data.Doctor_info &&
+                    dataExtraInfo.data.Doctor_info.priceTypeData &&
+                    dataExtraInfo.data.Doctor_info.priceTypeData.valueEn}{" "}
                 {lang === languages.VI ? "vnđ" : "$"}
               </span>
             </span>
@@ -78,12 +95,15 @@ class DoctorExtraInfor extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    detailDoctor: state.admin.detailDoctor,
     lang: state.app.language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getDetailDoctorById: (id) => dispatch(getDEtailDoctorById(id)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorExtraInfor);

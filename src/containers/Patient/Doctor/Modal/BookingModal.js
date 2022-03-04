@@ -12,7 +12,7 @@ class BookingModal extends Component {
     this.state = {
       isOpenBookingModal: false,
       timeDetail: {},
-      doctorId: "",
+      doctorId: this.props.doctorId,
       fullName: "",
       phoneNumber: "",
       email: "",
@@ -20,7 +20,7 @@ class BookingModal extends Component {
       reason: "",
       birthday: "",
       gender: "",
-      doctorIdState: "",
+      doctorIdState: this.props.doctorId,
       arrGender: [],
     };
   }

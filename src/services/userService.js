@@ -63,6 +63,9 @@ const createNewSpecialty = (data) => {
 const getAllSpecialty = () => {
   return axios.get("/api/get-all-specialty");
 };
+const getSpecialtyById = (id, location) => {
+  return axios.get(`/api/get-specialty-by-id?id=${id}&location=${location}`);
+};
 
 export {
   handeLogin,
@@ -82,4 +85,5 @@ export {
   verifyBookAppointment,
   createNewSpecialty,
   getAllSpecialty,
+  getSpecialtyById,
 };

@@ -270,7 +270,7 @@ class ManageDoctor extends Component {
       nameClinic: this.state.nameClinic,
       addressClinic: this.state.addressClinic,
       note: this.state.note,
-      selectedClinic: this.state.selectedClinic, //TODO
+      selectedClinic: this.state.selectedClinic.value,
       selectedSpecialty: this.state.selectedSpecialty.value,
     };
     this.props.postDoctorAction(data);
