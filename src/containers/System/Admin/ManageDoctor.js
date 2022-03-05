@@ -31,7 +31,7 @@ class ManageDoctor extends Component {
       listPayment: [],
       listProvince: [],
       listSpe: [],
-      listClinic: [],
+      arrayClinic: [],
       selectedPrice: "",
       selectedPayment: "",
       selectedProvince: "",
@@ -59,13 +59,14 @@ class ManageDoctor extends Component {
       this.setState({
         listOptionDoctors: options,
       });
-      let { resPrice, resPayment, resProvince, listSpecialty } =
+      let { resPrice, resPayment, resProvince, listSpecialty, listClinic } =
         this.props.allRequiredInfo;
       if (
         resPrice.data &&
         resPayment.data &&
         resProvince.data &&
-        listSpecialty
+        listSpecialty &&
+        listClinic
       ) {
         let optionsPrice = this.buildOptionsDoctor(
           resPrice.data.data,
@@ -91,22 +92,36 @@ class ManageDoctor extends Component {
             }
           });
         }
+        let lstClinic = [];
+        if (listClinic && listClinic.infor && listClinic.infor.data) {
+          listClinic.infor.data.forEach((item) => {
+            if (item) {
+              let obj = {
+                label: item.name,
+                value: item.id,
+              };
+              lstClinic.push(obj);
+            }
+          });
+        }
         this.setState({
           listPrice: optionsPrice,
           listPayment: optionsPayment,
           listProvince: optionsProvince,
           listSpe: listSpe,
+          arrayClinic: lstClinic,
         });
       }
     }
     if (prevProps.allRequiredInfo !== this.props.allRequiredInfo) {
-      let { resPrice, resPayment, resProvince, listSpecialty } =
+      let { resPrice, resPayment, resProvince, listSpecialty, listClinic } =
         this.props.allRequiredInfo;
       if (
         resPrice.data &&
         resPayment.data &&
         resProvince.data &&
-        listSpecialty
+        listSpecialty &&
+        listClinic
       ) {
         let optionsPrice = this.buildOptionsDoctor(
           resPrice.data.data,
@@ -132,11 +147,24 @@ class ManageDoctor extends Component {
             }
           });
         }
+        let lstClinic = [];
+        if (listClinic && listClinic.infor && listClinic.infor.data) {
+          listClinic.infor.data.forEach((item) => {
+            if (item) {
+              let obj = {
+                label: item.name,
+                value: item.id,
+              };
+              lstClinic.push(obj);
+            }
+          });
+        }
         this.setState({
           listPrice: optionsPrice,
           listPayment: optionsPayment,
           listProvince: optionsProvince,
           listSpe: listSpe,
+          arrayClinic: lstClinic,
         });
       }
     }
@@ -308,7 +336,7 @@ class ManageDoctor extends Component {
       selectedClinic,
       selectedSpecialty,
       listSpe,
-      listClinic,
+      arrayClinic,
     } = this.state;
     return (
       <>
@@ -373,7 +401,7 @@ class ManageDoctor extends Component {
               onChange={(event) =>
                 this.handleChangeSelected(event, "selectedClinic")
               }
-              options={listClinic}
+              options={arrayClinic}
               placeholder="Chọn phòng khám"
             />
           </div>

@@ -60,11 +60,20 @@ const verifyBookAppointment = (data) => {
 const createNewSpecialty = (data) => {
   return axios.post(`/api/create-new-specialty`, data);
 };
+const createNewClinic = (data) => {
+  return axios.post(`/api/create-new-clinic`, data);
+};
 const getAllSpecialty = () => {
   return axios.get("/api/get-all-specialty");
 };
+const getAllClicnic = () => {
+  return axios.get("/api/get-all-clinic");
+};
 const getSpecialtyById = (id, location) => {
   return axios.get(`/api/get-specialty-by-id?id=${id}&location=${location}`);
+};
+const getClinicById = (id) => {
+  return axios.get(`/api/get-clinic-by-id?id=${id}`);
 };
 
 export {
@@ -86,4 +95,7 @@ export {
   createNewSpecialty,
   getAllSpecialty,
   getSpecialtyById,
+  createNewClinic,
+  getAllClicnic,
+  getClinicById,
 };

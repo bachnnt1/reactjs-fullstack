@@ -16,6 +16,9 @@ import {
   createNewSpecialty,
   getAllSpecialty,
   getSpecialtyById,
+  createNewClinic,
+  getAllClicnic,
+  getClinicById,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -337,12 +340,20 @@ export const getRequireDoctorInfo = () => {
       let resPayment = await getAllCode("PAYMENT");
       let resProvince = await getAllCode("PROVINCE");
       let listSpecialty = await getAllSpecialty();
-      if (resPrice && resPayment && resProvince && listSpecialty) {
+      let listClinic = await getAllClicnic();
+      if (
+        resPrice &&
+        resPayment &&
+        resProvince &&
+        listSpecialty &&
+        listClinic
+      ) {
         let data = {
           resPrice: resPrice,
           resPayment: resPayment,
           resProvince: resProvince,
           listSpecialty: listSpecialty,
+          listClinic: listClinic,
         };
         dispatch(getRequireDoctorInfoSuccess(data));
       } else {
@@ -504,4 +515,76 @@ export const getSpecialbyIdSuccess = (detail) => ({
 
 export const getSpecialbyIdFail = () => ({
   type: actionTypes.FETCH_SPECIALTY__ID_FAIL,
+});
+
+export const createNewClinicAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await createNewClinic(data);
+      if (res) {
+        dispatch(createClinicSuccess(res));
+      } else {
+        dispatch(createClinicFail());
+      }
+    } catch (e) {
+      dispatch(createClinicFail());
+    }
+  };
+};
+
+export const createClinicSuccess = (res) => ({
+  type: actionTypes.CREATE_CLINIC_SUCCESS,
+  res: res,
+});
+
+export const createClinicFail = () => ({
+  type: actionTypes.CREATE_CLINIC_FAIL,
+});
+
+export const getAllClinicAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllClicnic();
+      if (res) {
+        dispatch(getAllClinicSuccess(res));
+      } else {
+        dispatch(getAllClinicFail());
+      }
+    } catch (e) {
+      dispatch(getAllClinicFail());
+    }
+  };
+};
+
+export const getAllClinicSuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_CLINIC_SUCCESS,
+  data: data,
+});
+
+export const getAllClinicFail = () => ({
+  type: actionTypes.FETCH_ALL_CLINIC_FAIL,
+});
+
+export const getClinicByIdAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getClinicById(id);
+      if (res) {
+        dispatch(getClinicbyIdSuccess(res));
+      } else {
+        dispatch(getClinicbyIdFail());
+      }
+    } catch (e) {
+      dispatch(getClinicbyIdFail());
+    }
+  };
+};
+
+export const getClinicbyIdSuccess = (detail) => ({
+  type: actionTypes.FETCH_CLICNIC_ID_SUCCESS,
+  detail: detail,
+});
+
+export const getClinicbyIdFail = () => ({
+  type: actionTypes.FETCH_CLICNIC_ID_FAIL,
 });

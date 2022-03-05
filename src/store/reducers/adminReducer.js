@@ -17,7 +17,9 @@ const initialState = {
   resVerifyEmail: {},
   resCreateSpecial: {},
   allSpecialties: [],
+  allClinics: [],
   specialtyById: {},
+  clinicById: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -189,6 +191,16 @@ const appReducer = (state = initialState, action) => {
       return {
         state,
       };
+    case actionTypes.FETCH_ALL_CLINIC_SUCCESS:
+      state.allClinics = action.data;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_ALL_CLINIC_FAIL:
+      state.allClinics = [];
+      return {
+        state,
+      };
     case actionTypes.FETCH_SPECIALTY__ID_SUCCESS:
       state.specialtyById = action.detail;
       return {
@@ -196,6 +208,16 @@ const appReducer = (state = initialState, action) => {
       };
     case actionTypes.FETCH_SPECIALTY__ID_FAIL:
       state.specialtyById = {};
+      return {
+        state,
+      };
+    case actionTypes.FETCH_CLICNIC_ID_SUCCESS:
+      state.clinicById = action.detail;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_CLICNIC_ID_FAIL:
+      state.clinicById = {};
       return {
         state,
       };

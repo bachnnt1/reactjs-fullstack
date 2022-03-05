@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import "react-markdown-editor-lite/lib/index.css";
-import "./ManageSpecialty.scss";
+import "./ManageClinic.scss";
 import { CommonUtils } from "../../../utils";
-import { createNewSpecialtyAction } from "../../../store/actions/adminActions";
+import { createNewClinicAction } from "../../../store/actions/adminActions";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
-class ManageSpecialty extends Component {
+class ManageClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,6 +15,7 @@ class ManageSpecialty extends Component {
       contentHTML: "",
       previewImage: "",
       name: "",
+      address: "",
     };
   }
   handleEditorChange = ({ html, text }) => {
@@ -33,40 +34,50 @@ class ManageSpecialty extends Component {
       });
     }
   };
-  handleChangeName = (event) => {
+  handleChangeInput = (event, id) => {
     if (event) {
       let copyState = { ...this.state };
-      copyState["name"] = event.target.value;
+      copyState[id] = event.target.value;
       this.setState({
         ...copyState,
       });
     }
   };
   handleSubmit = () => {
-    this.props.createNewSpecialtyAction(this.state);
+    this.props.createNewClinicAction(this.state);
   };
   render() {
-    let { contentMarkdown, name, previewImage } = this.state;
+    let { contentMarkdown, name, address } = this.state;
     return (
       <div className="boundary-container">
         <div className="title">
-          <p>Quản lý chuyên khoa</p>
+          <p>Quản lý phòng khám</p>
         </div>
         <div className="input-boundary">
           <div className="form-group col-6">
-            <label>Tên chuyên khoa</label>
+            <label>Tên phòng khám</label>
             <input
               type="text"
               value={name}
-              onChange={(event) => this.handleChangeName(event)}
+              onChange={(event) => this.handleChangeInput(event, "name")}
             />
           </div>
           <div className="form-group col-6">
-            <label>Ảnh chuyên khoa</label>
+            <label>Ảnh phòng khám</label>
             <input
               type="file"
               className="form-control-file"
               onChange={(event) => this.handleChangeImage(event)}
+            />
+          </div>
+        </div>
+        <div className="input-boundary">
+          <div className="form-group col-6">
+            <label>Địa chỉ phòng khám</label>
+            <input
+              type="text"
+              value={address}
+              onChange={(event) => this.handleChangeInput(event, "address")}
             />
           </div>
         </div>
@@ -89,16 +100,13 @@ class ManageSpecialty extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    resCreateSpecial: state.admin.resCreateSpecial,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createNewSpecialtyAction: (data) =>
-      dispatch(createNewSpecialtyAction(data)),
+    createNewClinicAction: (data) => dispatch(createNewClinicAction(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageClinic);
