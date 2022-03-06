@@ -20,6 +20,7 @@ const initialState = {
   allClinics: [],
   specialtyById: {},
   clinicById: {},
+  listPatient: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -221,7 +222,16 @@ const appReducer = (state = initialState, action) => {
       return {
         state,
       };
-
+    case actionTypes.FETCH_LIST_PATIENT_ID_SUCCESS:
+      state.listPatient = action.detail;
+      return {
+        ...state,
+      };
+    case actionTypes.FETCH_LIST_PATIENT_ID_FAIL:
+      state.listPatient = {};
+      return {
+        state,
+      };
     default:
       return state;
   }

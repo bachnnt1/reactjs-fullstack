@@ -19,6 +19,7 @@ import {
   createNewClinic,
   getAllClicnic,
   getClinicById,
+  getlistPatientByIdAndDate,
 } from "../../services/userService";
 export const getGender = () => {
   return async (dispatch, getState) => {
@@ -515,6 +516,29 @@ export const getSpecialbyIdSuccess = (detail) => ({
 
 export const getSpecialbyIdFail = () => ({
   type: actionTypes.FETCH_SPECIALTY__ID_FAIL,
+});
+export const getListPatientAction = (id, date) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getlistPatientByIdAndDate(id, date);
+      if (res) {
+        dispatch(getListPatientSuccess(res));
+      } else {
+        dispatch(getListPatientFail());
+      }
+    } catch (e) {
+      dispatch(getListPatientFail());
+    }
+  };
+};
+
+export const getListPatientSuccess = (detail) => ({
+  type: actionTypes.FETCH_LIST_PATIENT_ID_SUCCESS,
+  detail: detail,
+});
+
+export const getListPatientFail = () => ({
+  type: actionTypes.FETCH_LIST_PATIENT_ID_FAIL,
 });
 
 export const createNewClinicAction = (data) => {

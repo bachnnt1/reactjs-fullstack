@@ -75,6 +75,9 @@ const getSpecialtyById = (id, location) => {
 const getClinicById = (id) => {
   return axios.get(`/api/get-clinic-by-id?id=${id}`);
 };
+const getlistPatientByIdAndDate = (id, date) => {
+  return axios.get(`/api/get-list-patient-for-doctor?doctorId=${id}&date=${date}`);
+};
 
 export {
   handeLogin,
@@ -98,4 +101,5 @@ export {
   createNewClinic,
   getAllClicnic,
   getClinicById,
+  getlistPatientByIdAndDate,
 };
