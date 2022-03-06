@@ -64,8 +64,7 @@ class managePatient extends Component {
                   <th>STT</th>
                   <th>Thời gian</th>
                   <th>Họ tên</th>
-                  <th>Giới tính</th>
-                  <th>Action</th>
+                  <th>Giới tính</th> 
                 </tr>
               </thead>
               <tbody>
@@ -79,12 +78,6 @@ class managePatient extends Component {
                         <th>{item.timeRefData.valueEn}</th>
                         <th>{item.patientData.firstName}</th>
                         <th>{item.patientData.genderData.valueVi}</th>
-                        <th>
-                          <button onClick={this.handleConfirm}>Xác nhận</button>
-                          <button onClick={this.handleSendTicket}>
-                            Gửi hóa đơn
-                          </button>
-                        </th>
                       </tr>
                     );
                   })}
