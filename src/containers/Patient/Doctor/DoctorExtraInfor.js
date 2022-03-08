@@ -13,6 +13,7 @@ class DoctorExtraInfor extends Component {
     };
   }
   async componentDidMount() {
+    console.log("herre");
     await this.props.getDetailDoctorById(this.props.doctorIdFromParent);
   }
 
@@ -37,8 +38,8 @@ class DoctorExtraInfor extends Component {
           <b>
             {dataExtraInfo &&
               dataExtraInfo.data &&
-              dataExtraInfo.data.Doctor_info &&
-              dataExtraInfo.data.Doctor_info.addressClinic}
+              dataExtraInfo.data.Doctor_Info &&
+              dataExtraInfo.data.Doctor_Info.addressClinic}
           </b>
           <p>
             {" "}
@@ -47,14 +48,14 @@ class DoctorExtraInfor extends Component {
               {lang === languages.VI
                 ? dataExtraInfo &&
                   dataExtraInfo.data &&
-                  dataExtraInfo.data.Doctor_info &&
-                  dataExtraInfo.data.Doctor_info.priceTypeData &&
-                  dataExtraInfo.data.Doctor_info.priceTypeData.valueVi
+                  dataExtraInfo.data.Doctor_Info &&
+                  dataExtraInfo.data.Doctor_Info.priceTypeData &&
+                  dataExtraInfo.data.Doctor_Info.priceTypeData.valueVi
                 : dataExtraInfo &&
                   dataExtraInfo.data &&
-                  dataExtraInfo.data.Doctor_info &&
-                  dataExtraInfo.data.Doctor_info.priceTypeData &&
-                  dataExtraInfo.data.Doctor_info.priceTypeData.valueEn}{" "}
+                  dataExtraInfo.data.Doctor_Info &&
+                  dataExtraInfo.data.Doctor_Info.priceTypeData &&
+                  dataExtraInfo.data.Doctor_Info.priceTypeData.valueEn}{" "}
               {lang === languages.VI ? "vnđ" : "$"}
             </span>{" "}
             <span className="see-more" onClick={this.doShowDetai}>
@@ -75,14 +76,14 @@ class DoctorExtraInfor extends Component {
                 {lang === languages.VI
                   ? dataExtraInfo &&
                     dataExtraInfo.data &&
-                    dataExtraInfo.data.Doctor_info &&
-                    dataExtraInfo.data.Doctor_info.priceTypeData &&
-                    dataExtraInfo.data.Doctor_info.priceTypeData.valueVi
+                    dataExtraInfo.data.Doctor_Info &&
+                    dataExtraInfo.data.Doctor_Info.priceTypeData &&
+                    dataExtraInfo.data.Doctor_Info.priceTypeData.valueVi
                   : dataExtraInfo &&
                     dataExtraInfo.data &&
-                    dataExtraInfo.data.Doctor_info &&
-                    dataExtraInfo.data.Doctor_info.priceTypeData &&
-                    dataExtraInfo.data.Doctor_info.priceTypeData.valueEn}{" "}
+                    dataExtraInfo.data.Doctor_Info &&
+                    dataExtraInfo.data.Doctor_Info.priceTypeData &&
+                    dataExtraInfo.data.Doctor_Info.priceTypeData.valueEn}{" "}
                 {lang === languages.VI ? "vnđ" : "$"}
               </span>
             </span>
