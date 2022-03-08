@@ -24,7 +24,7 @@ import {
 export const getGender = () => {
   return async (dispatch, getState) => {
     try {
-      let res = await getAllCode("gender");
+      let res = await getAllCode("GENDER");
       if (res) {
         dispatch(getGenderSucess(res.data));
       } else {
@@ -49,7 +49,7 @@ export const getGenderFail = () => ({
 export const getPositions = () => {
   return async (dispatch, getState) => {
     try {
-      let res = await getAllCode("position");
+      let res = await getAllCode("POSITION");
       if (res) {
         dispatch(getPositionsSucess(res.data));
       } else {
@@ -74,7 +74,7 @@ export const getPositionsFail = () => ({
 export const getRoles = () => {
   return async (dispatch, getState) => {
     try {
-      let res = await getAllCode("role");
+      let res = await getAllCode("ROLE");
       if (res) {
         dispatch(getRolesSucess(res.data));
       } else {
@@ -266,7 +266,7 @@ export const getDetailDocFail = () => ({
 export const getAllCodeTime = () => {
   return async (dispatch, getState) => {
     try {
-      let res = await getAllCode("time");
+      let res = await getAllCode("TIME");
       if (res) {
         dispatch(getAllCodeTimeSuccess(res.data));
       } else {
