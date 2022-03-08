@@ -218,32 +218,32 @@ class ManageDoctor extends Component {
       let selectdProvince = "";
       let selectedClinic = "";
       let selectedSpecialty = "";
-      let nameClinic = doctorDetail.response.data.Doctor_info
-        ? doctorDetail.response.data.Doctor_info.nameClinic
+      let nameClinic = doctorDetail.response.data.Doctor_Info
+        ? doctorDetail.response.data.Doctor_Info.nameClinic
         : "";
-      let addressClinic = doctorDetail.response.data.Doctor_info
-        ? doctorDetail.response.data.Doctor_info.addressClinic
+      let addressClinic = doctorDetail.response.data.Doctor_Info
+        ? doctorDetail.response.data.Doctor_Info.addressClinic
         : "";
-      let note = doctorDetail.response.data.Doctor_info
-        ? doctorDetail.response.data.Doctor_info.note
+      let note = doctorDetail.response.data.Doctor_Info
+        ? doctorDetail.response.data.Doctor_Info.note
         : "";
-      if (doctorDetail.response.data.Doctor_info) {
+      if (doctorDetail.response.data.Doctor_Info) {
         selectdPrice = listPrice.filter((item) => {
-          return item.value === doctorDetail.response.data.Doctor_info.priceId;
+          return item.value === doctorDetail.response.data.Doctor_Info.priceId;
         });
         selectdCash = listPayment.filter((item) => {
           return (
-            item.value === doctorDetail.response.data.Doctor_info.paymentId
+            item.value === doctorDetail.response.data.Doctor_Info.paymentId
           );
         });
         selectdProvince = listProvince.filter((item) => {
           return (
-            item.value === doctorDetail.response.data.Doctor_info.provinceId
+            item.value === doctorDetail.response.data.Doctor_Info.provinceId
           );
         });
         selectedSpecialty = listSpe.filter((item) => {
           return (
-            item.value === doctorDetail.response.data.Doctor_info.specialtyId
+            item.value === doctorDetail.response.data.Doctor_Info.specialtyId
           );
         });
       }

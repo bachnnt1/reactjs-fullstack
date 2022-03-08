@@ -96,15 +96,17 @@ class DetailSpecialty extends Component {
   render() {
     let { arrDoctorId, specialtyById, listProvince } = this.state;
     let listIdDoctor = [];
-    arrDoctorId.forEach((item) => {
-      if (item) {
-        let obj = {
-          id: item.doctorId,
-          province: item.provinceId,
-        };
-        listIdDoctor.push(obj);
-      }
-    });
+    if (arrDoctorId) {
+      arrDoctorId.forEach((item) => {
+        if (item) {
+          let obj = {
+            id: item.doctorId,
+            province: item.provinceId,
+          };
+          listIdDoctor.push(obj);
+        }
+      });
+    }
     return (
       <>
         {" "}
@@ -135,28 +137,35 @@ class DetailSpecialty extends Component {
               })}
             </select>
           </div>
-          {listIdDoctor.map((item, index) => {
-            let indexProfile = index;
-            return (
-              <div className="detail-container">
-                <div className="detail-first-child">
-                  <ProfileDoctor
-                    key={indexProfile}
-                    doctorId={item.id}
-                    isShowDescription={true}
-                  />
-                </div>
-                <div className="detail-child">
-                  <div className="content-up">
-                    <DoctorSchedule key={index} doctorIdFromParent={item.id} />
+          {listIdDoctor &&
+            listIdDoctor.map((item, index) => {
+              let indexProfile = index;
+              return (
+                <div className="detail-container">
+                  <div className="detail-first-child">
+                    <ProfileDoctor
+                      key={indexProfile}
+                      doctorId={item.id}
+                      isShowDescription={true}
+                    />
                   </div>
-                  <div className="content-down">
-                    <DoctorExtraInfor key={item} doctorIdFromParent={item.id} />
+                  <div className="detail-child">
+                    <div className="content-up">
+                      <DoctorSchedule
+                        key={index}
+                        doctorIdFromParent={item.id}
+                      />
+                    </div>
+                    <div className="content-down">
+                      <DoctorExtraInfor
+                        key={item}
+                        doctorIdFromParent={item.id}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </>
     );
