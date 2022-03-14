@@ -4,10 +4,13 @@ import "./HomeHeader.scss";
 import { FormattedMessage } from "react-intl";
 import { languages } from "../../utils";
 import { changeLanguageApp } from "../../store/actions";
-
+import { withRouter } from "react-router";
 class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.changeLanguageAppRedux(language);
+  };
+  backHome = () => {
+    this.props.history.push(`/home`);
   };
   render() {
     return (
@@ -16,7 +19,10 @@ class HomeHeader extends Component {
           <div className="home-header-content">
             <div className="left">
               <i className="fas fa-bars"></i>
-              <div className="header-logo"></div>
+              <div
+                className="header-logo"
+                onClick={() => this.backHome()}
+              ></div>
             </div>
             <div className="center">
               <div className="child-content">
@@ -86,72 +92,74 @@ class HomeHeader extends Component {
             </div>
           </div>
         </div>
-        <div className="home-header-banner">
-          <div className="content-up">
-            <div className="title1">
-              <FormattedMessage id="homeHeader.baseMedial" />
+        {this.props.isShowBanner && (
+          <div className="home-header-banner">
+            <div className="content-up">
+              <div className="title1">
+                <FormattedMessage id="homeHeader.baseMedial" />
+              </div>
+              <div className="title2">
+                <FormattedMessage id="homeHeader.totalCare" />
+              </div>
+              <div className="search">
+                <i className="fas fa-search"></i>
+                <input type="text" placeholder="Tìm chuyên khoa"></input>
+              </div>
             </div>
-            <div className="title2">
-              <FormattedMessage id="homeHeader.totalCare" />
-            </div>
-            <div className="search">
-              <i className="fas fa-search"></i>
-              <input type="text" placeholder="Tìm chuyên khoa"></input>
+            <div className="content-down">
+              <div className="option">
+                <div className="option-child">
+                  <div className="icon-child">
+                    <i className="far fa-hospital"></i>
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="homeHeader.examSpe" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <i className="fas fa-mobile-alt"></i>
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="homeHeader.remoteExam" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <i className="fas fa-procedures"></i>
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="homeHeader.totalExam" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <i className="fab fa-accessible-icon"></i>
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="homeHeader.medicalTest" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <i className="fas fa-user-md"></i>
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="homeHeader.spiritHealth" />
+                  </div>
+                </div>
+                <div className="option-child">
+                  <div className="icon-child">
+                    <i className="fas fa-ambulance"></i>
+                  </div>
+                  <div className="text-child">
+                    <FormattedMessage id="homeHeader.dentistExam" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="content-down">
-            <div className="option">
-              <div className="option-child">
-                <div className="icon-child">
-                  <i className="far fa-hospital"></i>
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="homeHeader.examSpe" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <i className="fas fa-mobile-alt"></i>
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="homeHeader.remoteExam" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <i className="fas fa-procedures"></i>
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="homeHeader.totalExam" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <i className="fab fa-accessible-icon"></i>
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="homeHeader.medicalTest" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <i className="fas fa-user-md"></i>
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="homeHeader.spiritHealth" />
-                </div>
-              </div>
-              <div className="option-child">
-                <div className="icon-child">
-                  <i className="fas fa-ambulance"></i>
-                </div>
-                <div className="text-child">
-                  <FormattedMessage id="homeHeader.dentistExam" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
       </>
     );
   }
@@ -161,6 +169,7 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     lang: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 
@@ -170,4 +179,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
+);

@@ -13,10 +13,10 @@
 
 .img-customize {
   .bg-image-speciality {
-    background: url("../../../src/assets/images/163921da-lieu-hn.jpg");
+    width: 90% !important;
   }
   .bg-image-facility {
-    background: url("../../../src/assets/images/145224-bn-nam-hoc-va-hiem-muon-hn.jpg");
+    width: 80% !important;
   }
   .bg-image {
     padding-bottom: 5px;
@@ -86,6 +86,10 @@
 .slick-next::before {
   font-family: FontAwesome !important;
   color: red !important;
+}
+
+.slick-disabled {
+  display: none !important;
 }
 .section-about {
   height: 500px;

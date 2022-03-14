@@ -13,14 +13,17 @@ import { path } from "../utils";
 
 import Home from "../routes/Home";
 import Login from "./Auth/Login";
-import Header from "./Header/Header";
 import System from "../routes/System";
 
 import { CustomToastCloseButton } from "../components/CustomToast";
 import ConfirmModal from "../components/ConfirmModal";
 import HomePage from "../containers/HomePage/HomePage";
 import CustomScrollbars from "../components/CustomScrollbars";
-
+import DetailDoctor from "./Patient/Doctor/DetailDoctor";
+import Doctor from "../routes/Doctor";
+import VerifyEmail from "./Patient/VerifyEmail";
+import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
+import DetailClinic from "./Patient/Clinic/DetailClinic";
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
@@ -46,7 +49,6 @@ class App extends Component {
         <Router history={history}>
           <div className="main-container">
             <ConfirmModal />
-            {this.props.isLoggedIn && <Header />}
 
             <div className="content-container">
               <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
@@ -60,7 +62,18 @@ class App extends Component {
                     path={path.SYSTEM}
                     component={userIsAuthenticated(System)}
                   />
+                  <Route
+                    path={"/Doctor/"}
+                    component={userIsAuthenticated(Doctor)}
+                  />
                   <Route path={path.HOMEPAGE} component={HomePage} />
+                  <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
+                  <Route
+                    path={path.DETAIL_SPECIALTY}
+                    component={DetailSpecialty}
+                  />
+                  <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+                  <Route path={path.VERIFY_EMAIL} component={VerifyEmail} />
                 </Switch>
               </CustomScrollbars>
             </div>
