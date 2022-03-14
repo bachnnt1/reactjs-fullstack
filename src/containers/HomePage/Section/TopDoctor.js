@@ -4,14 +4,19 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./TopDoctor.scss";
+import { FormattedMessage } from "react-intl";
 class TopDoctor extends Component {
   render() {
     return (
       <div className="section-specialty hightlight">
         <div className="special-content">
           <div className="special-header">
-            <span>Bác sĩ nổi bật tuần qua</span>
-            <button>Tìm kiếm</button>
+            <span>
+              <FormattedMessage id="homeContent.topDoctor" />
+            </span>
+            <button>
+              <FormattedMessage id="common.find" />
+            </button>
           </div>
           <div className="body">
             <Slider {...this.props.settings}>

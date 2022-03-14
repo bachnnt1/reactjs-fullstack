@@ -19,6 +19,10 @@
     "spiritHealth": "Spirit health",
     "dentistExam": "Dental Examination"
   },
+  "homeContent": {
+    "popularSpecialties": "Popular specialties",
+    "topDoctor": "Top doctor"
+  },
   "common": {
     "add": "Add",
     "edit": "Edit",
@@ -37,7 +41,9 @@
     "forbiden-request": "Invalid input data",
     "fail-to-load-all-code": "Fail to load data from allcode",
     "sum": "Sum",
-    "date-range-invalid": "Date range invalid"
+    "date-range-invalid": "Date range invalid",
+    "seeMore": "See more",
+    "find": "Search"
   },
   "login": {
     "login": "Login",

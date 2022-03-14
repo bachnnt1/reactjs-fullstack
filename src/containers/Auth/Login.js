@@ -45,7 +45,7 @@ class Login extends Component {
           <div className="login-content row">
             <div className="col-12 text-login">Login</div>
             <div className="col-12 form-group login-input">
-              <label>Username:</label>
+              <label>Username</label>
               <input
                 type="text"
                 className="form-control"
@@ -55,7 +55,7 @@ class Login extends Component {
               ></input>
             </div>
             <div className="col-12 form-group login-input">
-              <label>Password:</label>
+              <label>Password</label>
               <input
                 type="password"
                 className="form-control"

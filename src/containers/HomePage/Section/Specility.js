@@ -3,14 +3,19 @@ import { connect } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import { FormattedMessage } from "react-intl";
 class Specility extends Component {
   render() {
     return (
       <div className="section-specialty hightlight">
         <div className="special-content">
           <div className="special-header">
-            <span>Chuyên khoa phổ biến</span>
-            <button>Xem thêm</button>
+            <span>
+              <FormattedMessage id="homeContent.popularSpecialties" />
+            </span>
+            <button>
+              <FormattedMessage id="common.seeMore" />
+            </button>
           </div>
           <div className="body">
             <Slider {...this.props.settings}>
